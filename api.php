@@ -1555,7 +1555,7 @@ class format_ladtopics_external extends external_api
     {
         return new external_single_structure(
             array(
-                    'success' => new external_value(PRAM_BOOL, 'Indicats success'),
+                    'success' => new external_value(PARAM_BOOL, 'Success Variable'),
                     'data' => new external_value(PARAM_RAW, 'Data output')
                 )
         );
@@ -1745,10 +1745,10 @@ m.name = 'longpage'
         
         return array(
             'success' => true,
-            'data' => array(
+            'data' => json_encode(array(
                 'activities' => json_encode($debug), 
                 'completions' => json_encode($completions)
-            )
+            ))
         );
         
     }
@@ -1773,7 +1773,7 @@ m.name = 'longpage'
     {
         return new external_single_structure(
             array(
-                    'debug' => new external_value(PARAM_RAW, ''),
+                    'success' => new external_value(PARAM_BOOL, ''),
                     'data' => new external_value(PARAM_RAW, '')
                 )
         );
@@ -1790,9 +1790,11 @@ m.name = 'longpage'
             array("course" => (int)$courseid, "user" => (int)$userid));
         $transaction->allow_commit();
         
+        // TODO json_encode($debug)
+
         return array(
-            'data' => json_encode($res), 
-            'debug' => json_encode($debug)
+            'success' => true, 
+            'data' => json_encode($res)
         );
     }
 
@@ -1820,8 +1822,9 @@ m.name = 'longpage'
     {
         return new external_single_structure(
             array(
-                    'debug' => new external_value(PARAM_RAW, '')
-                )
+                'success' => new external_value(PARAM_BOOL, ''),
+                'data' => new external_value(PARAM_RAW, '')
+            )
         );
     }
     public static function reflectionCreate($data)
@@ -1844,7 +1847,8 @@ m.name = 'longpage'
         $transaction->allow_commit();
         
         return array(
-            'debug' => json_encode($data)
+            'success' => true,
+            'data' => json_encode($data)
         );
     }
 
