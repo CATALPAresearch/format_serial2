@@ -1555,8 +1555,8 @@ class format_ladtopics_external extends external_api
     {
         return new external_single_structure(
             array(
-                    'activities' => new external_value(PARAM_RAW, ''),
-                    'completions' => new external_value(PARAM_RAW, '')
+                    'success' => new external_value(PRAM_BOOL, 'Indicats success'),
+                    'data' => new external_value(PARAM_RAW, 'Data output')
                 )
         );
     }
@@ -1744,8 +1744,11 @@ m.name = 'longpage'
         }
         
         return array(
-            'activities' => json_encode($debug), 
-            'completions' => json_encode($completions)
+            'success' => true,
+            'data' => array(
+                'activities' => json_encode($debug), 
+                'completions' => json_encode($completions)
+            )
         );
         
     }

@@ -49,11 +49,13 @@ if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context)
 // Make sure section 0 is created.
 course_create_sections_if_missing($course, 0);
 
+/*
 if (format_ladtopics\blocking::tool_policy_accepted()) {
     $PAGE->requires->js_call_amd('format_ladtopics/ladtopics', 'init', array('courseid'=>$course->id));//, array(array('courseid'=>$course->id, 'user'=>$user_data)));
 } else{
     $PAGE->requires->js_call_amd('format_ladtopics/ladtopicsCleaner', 'init');
 }
+*/
 $renderer = $PAGE->get_renderer('format_ladtopics');
 
 if (!empty($displaysection)) {
