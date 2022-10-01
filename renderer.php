@@ -42,8 +42,10 @@ class format_ladtopics_renderer extends format_section_renderer_base {
      * @param string $target one of rendering target constants
      */
     public function __construct(moodle_page $page, $target) {
+        global $COURSE, $PAGE;
         parent::__construct($page, $target);
         
+    
         // Since format_topics_renderer::section_edit_controls() only displays the 'Set current section' control when editing mode is on
         // we need to be sure that the link 'Turn editing mode on' is available for a user who does not have any other managing capability.
         $page->set_other_editing_capability('moodle/course:setcurrentsection');
@@ -92,9 +94,6 @@ class format_ladtopics_renderer extends format_section_renderer_base {
         }    
     }
 
-    private function checkForSurveys(){
-        return '<div class="alert alert-check" role="alert"><a href="'.new moodle_url('/course/format/ladtopics/survey.php').'">Bitte</a></div>';
-    }
 
     /**
      * Generate the starting container html for a list of sections
@@ -104,15 +103,10 @@ class format_ladtopics_renderer extends format_section_renderer_base {
         global $CFG, $DB, $PAGE, $COURSE;
         $format_options = format_base::instance($PAGE->course)->get_format_options();
         require_once($CFG->libdir.'/completionlib.php');
-        
-        $PAGE->requires->js_call_amd('format_ladtopics/app-lazy', 'init', [
-            'courseid' => $COURSE->id,
-            'fullPluginName' => 'format_ladtopics'
-        ]);
 
         return 
-            html_writer::start_tag('div', array('class' => 'container chart-container')) 
-            . '<div id="app"></div>' . html_writer::end_tag('div') 
+            html_writer::start_tag('div', array('class' => 'container dashboard-container')) 
+            . '' . html_writer::end_tag('div') 
             . html_writer::start_tag('ul', array('class' => 'topics'))
             ;
     }

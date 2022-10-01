@@ -1184,7 +1184,7 @@ span.autocompletion, .tooglecompletion {
 /* Dashboard */
 
 .dashboard {
-  margin: 20px -20px;
+  margin: 20 0;
   border-top: solid 2px #83878b;
 }
 

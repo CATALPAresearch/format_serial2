@@ -1530,6 +1530,52 @@ class format_ladtopics_external extends external_api
      */
 
     
+    /**
+     * Interface to get survey data of the individual user
+     */
+    public static function get_surveys_parameters()
+    {
+        //  VALUE_REQUIRED, VALUE_OPTIONAL, or VALUE_DEFAULT. If not mentioned, a value is VALUE_REQUIRED
+        return new external_function_parameters(
+            array(
+                'courseid' => new external_value(PARAM_INT, 'course id')
+            )
+        );
+    }
+    
+    public static function get_surveys_is_allowed_from_ajax()
+    {
+        return true;
+    }
+
+    public static function get_surveys_returns()
+    {
+        return new external_single_structure(
+            array(
+                    'success' => new external_value(PARAM_BOOL, 'Success Variable'),
+                    'data' => new external_value(PARAM_RAW, 'Data output')
+                )
+        );
+    }
+    public static function get_surveys($data)
+    {
+       global $CFG, $DB, $USER, $COURSE;
+        $debug = [];
+        $userid = (int)$USER->id;
+        $courseid = $data;
+
+        $transaction = $DB->start_delegated_transaction();
+        $res = $DB->get_records_sql(
+            "SELECT * FROM {ladtopics_reflections} WHERE course=:course AND user=:user ORDER BY timecreated ASC;", 
+            array("course" => (int)$courseid, "user" => (int)$userid));
+        $transaction->allow_commit();
+
+        return array(
+            'success' => true,
+            'data' => json_encode(2) // TODO
+        );
+
+    } 
 
     
 
@@ -1565,6 +1611,7 @@ class format_ladtopics_external extends external_api
         global $CFG, $DB, $USER, $COURSE;
         $userid = (int)$USER->id;
         $courseid = $data;
+        $debug = [];
         $meta = get_meta($courseid);
         
         // Step 1: obtain all course activities
@@ -1589,6 +1636,7 @@ class format_ladtopics_external extends external_api
                         'icon'       => $cm->get_icon_url(),
                         'available'  => $cm->available,
                         'completion' => 0,
+                        'visible' => $cm->visible,
                     );
             }
         }
@@ -1613,7 +1661,8 @@ class format_ladtopics_external extends external_api
                     m.name activity,
                     a.id activity_id,
                     cm.id module_id,
-                    cm.section, (SELECT count(*) FROM {course_modules} cmm JOIN {modules} m ON m.id = cmm.module WHERE m.name = 'assign' AND cmm.course = cm.course AND cmm.section = cm.section) count,
+                    cm.section, 
+                    (SELECT count(*) FROM {course_modules} cmm JOIN {modules} m ON m.id = cmm.module WHERE m.name = 'assign' AND cmm.course = cm.course AND cmm.section = cm.section) count,
                     a.grade max_score, 
                     ag.grade achieved_score,
                     asub.timemodified  submission_time,
@@ -1650,95 +1699,109 @@ class format_ladtopics_external extends external_api
                     qsub.state = 'finished' AND
                     m.name = 'quiz'
             ;",
-            'longpage' => "SELECT DISTINCT
-                m.name activity,
-                l.id activity_id,
-                cm.id module_id,
-                cm.section,
-                (select count(section) from mdl_longpage_reading_progress lrp) count,
-                '0' AS max_score,
-                '0' AS achieved_score,
-                '0' AS submission_time,
-                '0' AS grading_time
-                FROM mdl_longpage l
-                JOIN mdl_longpage_reading_progress lrp ON l.id = lrp.longpageid
-                LEFT JOIN mdl_course_modules cm ON l.id = cm.instance
-                LEFT JOIN mdl_modules m ON m.id = cm.module 
+            'longpage' => "SELECT distinct 
+                    m.name activity,
+                    l.id activity_id,
+                    cm.id module_id,
+                    cm.section,
+                    COUNT(distinct lrp.section) complete,
+                    AVG(lrp.sectioncount) count,
+                    '0' AS max_score,
+                    '0' AS achieved_score,
+                    MAX(lrp.timemodified) AS submission_time,
+                    '0' AS grading_time
+                    FROM {longpage} l
+                    JOIN {longpage_reading_progress} lrp ON l.id = lrp.longpageid
+                    RIGHT JOIN {course_modules} cm ON l.id = cm.instance
+                    RIGHT JOIN {modules} m ON m.id = cm.module 
+                    WHERE 
+                    l.course = :courseid AND
+                    lrp.userid= :userid AND 
+                    m.name = 'longpage'
+                    Group by cm.id
+            ;",
+            'hypervideo' => "SELECT DISTINCT 
+                    m.name activity,
+                    h.id activity_id,
+                    cm.id module_id,
+                    cm.section,
+                    SUM(hl.duration) complete,
+                    COUNT(DISTINCT hl.value) * 2 count, -- static parameter - attention
+                    '0' AS max_score,
+                    '0' AS achieved_score,
+                    MAX(hl.timemodified) AS submission_time,
+                    '0' AS grading_time
+                FROM mdl_hypervideo h
+                JOIN mdl_hypervideo_log hl ON h.id = hl.hypervideo
+                RIGHT JOIN mdl_course_modules cm ON h.id = cm.instance
+                RIGHT JOIN mdl_modules m ON m.id = cm.module 
                 WHERE 
-                l.course = :courseid AND 
-                lrp.userid= :userid AND 
-                m.name = 'longpage'
+                    h.course = :courseid AND
+                    hl.user=:userid AND 
+                    hl.action = 'playback' AND
+                    m.name = 'hypervideo'
+                GROUP BY cm.id
             ;"
+            );
             /*
-SELECT
+SELECT distinct 
 m.name activity,
 l.id activity_id,
-lrp.longpageid longpageid,
 cm.id module_id,
 cm.section,
-lrp.userid,
-(select count(section) from mdl_longpage_reading_progress lrp) count
-
+COUNT(distinct lrp.section) / AVG(lrp.sectioncount) count,
+'0' AS max_score,
+'0' AS achieved_score,
+MAX(lrp.timemodified) AS submission_time,
+'0' AS grading_time
 FROM mdl_longpage l
 JOIN mdl_longpage_reading_progress lrp ON l.id = lrp.longpageid
-LEFT JOIN mdl_course_modules cm ON l.id = cm.instance
-LEFT JOIN mdl_modules m ON m.id = cm.module 
+RIGHT JOIN mdl_course_modules cm ON l.id = cm.instance
+RIGHT JOIN mdl_modules m ON m.id = cm.module 
 WHERE 
 lrp.userid=2 AND 
-lrp.longpageid=2 AND
+-- lrp.longpageid=1 AND
 m.name = 'longpage'
+Group by cm.id
+;
 ;
         */
             
-        );
+        
 
-        $debug = [];
         $params = array('courseid' => $courseid, 'userid' => $userid);
         $res = [];
         foreach ($query_activities as $moduletype => $query) {
-            $debug[] = $moduletype;
             try{ 
-                $transaction = $DB->start_delegated_transaction();
-                $resultset = $DB->get_records_sql($query, $params);
-                $transaction->allow_commit();
-                if(is_array($resultset) || count($resultset) > 0){
-                    $res[$moduletype] = $resultset;
-                    //$debug[] = $resultset;
-                }else{
-                    $res[$moduletype] = [];
-                    $debug[] = var_dump($resultset);
+                $resultset = $DB->get_recordset_sql($query, $params);
+                foreach($resultset as $key => $value){
+                    if (!property_exists('value', 'activity')){
+                        $res[] = $value;
+                    }
                 }
             }catch(Exception $e){
-                $res[$moduletype] = [];
+                //$res[$moduletype] = [];
                 $debug[] = $e;
             }
         }
-        $debug[] = "resultset";
+        $debug[] = "---resultset----";
         $debug[] = $res;
 
         
         // Step 4: add scores to completion
         foreach($completions as $sec => $activity){
-            foreach($res as $type => $result){
-                //$debug[] = [$activity['type'], (int)$activity['instance'], (int)$res[$type][$type]->activity_id, array_key_exists('quiz', $result)];
-                if($activity['type'] == 'assign' && array_key_exists('assign', $res[$type])){ 
-                    if($activity['instance'] == $res[$type][$type]->activity_id){
-                        $completions[$sec]['achieved_score'] = $res[$type][$type]->achieved_score;
-                        $completions[$sec]['max_score'] = $res[$type][$type]->max_score;
-                        $completions[$sec]['count'] = $res[$type][$type]->count;
-                        $completions[$sec]['submission_time'] = $res[$type][$type]->submission_time;
+            foreach($res as $type => $item){
+                //$debug[] = $item;
+                if($activity['type'] == $item->activity && $activity['instance'] == $item->activity_id){
+                    $completions[$sec]['achieved_score'] = $item->achieved_score;
+                    $completions[$sec]['max_score'] = $item->max_score;
+                    $completions[$sec]['count'] = $item->count;
+                    $completions[$sec]['submission_time'] = $item->submission_time;
+                    $completions[$sec]['name'] = $activity['type'];
+                    if($item->complete){
+                        $completions[$sec]['complete'] = $item->complete;
                     }
-                }
-                $debug[] = $res[$type];
-                if($activity['type'] == 'quiz' && array_key_exists('quiz', $res[$type])){  
-                    if($activity['instance'] == $res[$type][$type]->activity_id){
-                        $debug[] = 'inside';
-                        $completions[$sec]['achieved_score'] = $res[$type][$type]->achieved_score;
-                        $completions[$sec]['max_score'] = $res[$type][$type]->max_score;
-                        $completions[$sec]['count'] = $res[$type][$type]->count;
-                        $completions[$sec]['submission_time'] = $res[$type][$type]->submission_time;
-                        $completions[$sec]['name'] = 'quiz';
-                    }
+                    $debug[] = $completions[$sec];
                 }
             }
         }
@@ -1746,11 +1809,10 @@ m.name = 'longpage'
         return array(
             'success' => true,
             'data' => json_encode(array(
-                'activities' => json_encode($debug), 
+                'debug' => json_encode($debug), 
                 'completions' => json_encode($completions)
             ))
         );
-        
     }
      
 
