@@ -12,7 +12,7 @@
                         <a class="nav-link" v-on:click="log('dashboard_completion_open',0)" data-toggle="tab" href="#learningstatus" role="tab">Genutzte Lernangebote</a></li>
                     <li hidden class="nav-item ">
                         <a class="nav-link" v-on:click="log('dashboard_time-management_open',0)" data-toggle="tab" href="#timemanagement" role="tab">Zeitmanagement</a></li>
-                    <li class="nav-item">
+                    <li hidden class="nav-item">
                         <a class="nav-link" v-on:click="log('dashboard_strategy_open',0)" data-toggle="tab" href="#strategy" role="tab">Lernen gestalten</a>
                     </li>
                     <li hidden class="nav-item">
@@ -45,6 +45,13 @@
             </div>
         </div>
         <hr class="mb-3 mt-3" />
+        <div class="mb-3 mt-3" style="width:100%;height:auto;">
+            <video controls="true" style="width:100%;height:100%">
+                <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
+                <source v-if="controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Kontrollgruppe.mp4" type="video/mp4"></source>
+                Leider können wir Ihnen das Begrüßungsvideo nicht zeigen, da Ihr Browser keine Videos unterstützt.
+            </video>
+        </div>
     </div>
 </template>
 
@@ -77,13 +84,21 @@ export default {
             context: {},
             logger: null,
             surveyRequired: false,
-            surveyLink: ''
+            surveyLink: '',
+            controlgroup: false,
         }
     },
     components: {
         CourseOverview
     },
     mounted: function () {
+        // assign user to the control group if their user id is even 
+        this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
+        // do not assign user to the control group if they are not in the course 24 (operating systems etc.)
+        this.controlgroup = this.$store.state.courseid == 24 ? this.controlgroup : false;
+        // do not assign user to the control group if they are accessing the system on localhost
+        this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
+        
         this.context.courseId = this.$store.state.courseid; // TODO
         this.logger = new Logger(this.context.courseId, {
             context: "format_ladtopics",
