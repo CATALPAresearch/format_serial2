@@ -45,7 +45,7 @@
             </div>
         </div>
         <hr class="mb-3 mt-3" />
-        <div class="mb-3 mt-3" style="width:100%;height:auto;">
+        <div v-if="courseid == 24" class="mb-3 mt-3" style="width:100%;height:auto;">
             <video controls="true" style="width:100%;height:100%">
                 <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
                 <source v-if="controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Kontrollgruppe.mp4" type="video/mp4"></source>
@@ -81,6 +81,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
+            courseid: -1,
             context: {},
             logger: null,
             surveyRequired: false,
@@ -92,6 +93,7 @@ export default {
         CourseOverview
     },
     mounted: function () {
+        this.courseid = this.$store.state.courseid;
         // assign user to the control group if their user id is even 
         this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
         // do not assign user to the control group if they are not in the course 24 (operating systems etc.)
