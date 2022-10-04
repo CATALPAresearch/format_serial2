@@ -45,6 +45,7 @@
             </div>
         </div>
         <hr class="mb-3 mt-3" />
+        
         <div v-if="courseid == 24" class="mb-3 mt-3" style="width:100%;height:auto;">
             <video controls="true" style="width:100%;height:100%">
                 <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
