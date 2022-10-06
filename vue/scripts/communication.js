@@ -22,6 +22,7 @@ export default class Communication {
                         return resolve(data);
                     },
                     fail: function (error) {
+                        console.log('Error at Webservice: '+Communication.fullName + '_' + method, error);
                         return reject(error);
                     }
                 }]);

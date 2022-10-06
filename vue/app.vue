@@ -116,6 +116,7 @@ export default {
             var a = this.logger ? this.logger.add(key, values) : null;
         },
         prepareSurvey: async function () {
+            return;
             // which surveys have been done already
             const response = await Communication.webservice(
                 'get_surveys',

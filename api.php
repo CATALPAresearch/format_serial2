@@ -1699,12 +1699,12 @@ class format_ladtopics_external extends external_api
                     qsub.state = 'finished' AND
                     m.name = 'quiz'
             ;",
-            'longpage' => "SELECT distinct 
+            'longpage' => "SELECT DISTINCT 
                     m.name activity,
                     l.id activity_id,
                     cm.id module_id,
                     cm.section,
-                    COUNT(distinct lrp.section) complete,
+                    COUNT(DISTINCT lrp.section) complete,
                     AVG(lrp.sectioncount) count,
                     '0' AS max_score,
                     '0' AS achieved_score,
@@ -1718,7 +1718,7 @@ class format_ladtopics_external extends external_api
                     l.course = :courseid AND
                     lrp.userid= :userid AND 
                     m.name = 'longpage'
-                    Group by cm.id
+                    Group by m.name, l.id, cm.id, cm.section 
             ;",
             'hypervideo' => "SELECT DISTINCT 
                     m.name activity,
@@ -1740,7 +1740,7 @@ class format_ladtopics_external extends external_api
                     hl.user=:userid AND 
                     hl.action = 'playback' AND
                     m.name = 'hypervideo'
-                GROUP BY cm.id
+                GROUP BY m.name, h.id, cm.id, cm.section
             ;"
             );
             /*
@@ -1842,13 +1842,13 @@ Group by cm.id
     }
     public static function reflectionRead($data)
     {
-        global $CFG, $DB, $USER, $COURSE;
+        global $DB, $USER;
         $debug = [];
         $userid = (int)$USER->id;
         $courseid = $data;
         $transaction = $DB->start_delegated_transaction();
         $res = $DB->get_records_sql(
-            "SELECT * FROM {ladtopics_reflections} WHERE course=:course AND user=:user ORDER BY timecreated ASC;", 
+            "SELECT * FROM {ladtopics_reflections} WHERE course=:course AND user=:user ORDER BY timecreated ASC", 
             array("course" => (int)$courseid, "user" => (int)$userid));
         $transaction->allow_commit();
         
