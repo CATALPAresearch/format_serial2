@@ -1725,20 +1725,20 @@ class format_ladtopics_external extends external_api
                     h.id activity_id,
                     cm.id module_id,
                     cm.section,
-                    SUM(hl.duration) complete,
-                    COUNT(DISTINCT hl.value) * 2 count, -- static parameter - attention
+                    SUM(hl.duration) count, 
+                    COUNT(DISTINCT hl.values) * 2 complete, -- static parameter - attention
                     '0' AS max_score,
                     '0' AS achieved_score,
                     MAX(hl.timemodified) AS submission_time,
                     '0' AS grading_time
-                FROM mdl_hypervideo h
-                JOIN mdl_hypervideo_log hl ON h.id = hl.hypervideo
-                RIGHT JOIN mdl_course_modules cm ON h.id = cm.instance
-                RIGHT JOIN mdl_modules m ON m.id = cm.module 
+                FROM {hypervideo} h
+                JOIN {hypervideo_log} hl ON h.id = hl.hypervideo
+                RIGHT JOIN {course_modules} cm ON h.id = cm.instance
+                RIGHT JOIN {modules} m ON m.id = cm.module 
                 WHERE 
                     h.course = :courseid AND
-                    hl.user=:userid AND 
-                    hl.action = 'playback' AND
+                    hl.userid = :userid AND 
+                    hl.actions = 'playback' AND
                     m.name = 'hypervideo'
                 GROUP BY m.name, h.id, cm.id, cm.section
             ;"

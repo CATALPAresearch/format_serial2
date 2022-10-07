@@ -454,7 +454,7 @@ export default {
                     </span>
                     <span class="p-1 d-none d-md-block"
                         style="z-index:10;position:absolute;color:#333;font-size:0.7rem;vertical-align:middle;display:block;height:100%;">
-                        {{ Math.round(getRatio(section.hypervideo.complete, section.hypervideo.count)) }}% gesehen
+                        {{ getRatio(section.hypervideo.complete, section.hypervideo.count).toFixed(1) }}% gesehen
                     </span>
                 </span>
                 <span v-if="section.longpage == null">-</span>
