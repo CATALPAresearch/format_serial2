@@ -118,7 +118,7 @@ export default function (courseId, options) {
     this.sendLog = function (entry) {
         let _this = this;
         ajax.call([{
-            methodname: 'mod_hypervideo_log',
+            methodname: 'format_lattopics_log',
             args: {
                 data: {
                     courseid: _this.courseId,

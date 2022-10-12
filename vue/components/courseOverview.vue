@@ -97,7 +97,7 @@ export default {
         this.controlgroup = this.$store.state.courseid == 24 ? this.controlgroup : false;
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
-        
+
         this.loadCourData();
         this.loadReflection();
     },
@@ -112,7 +112,7 @@ export default {
                 response.data = JSON.parse(response.data)
                 console.log('input debug::', JSON.parse(response.data.debug));
                 console.log('input completions::', JSON.parse(response.data.completions));
-                
+
                 this.sections = this.groupBy(JSON.parse(response.data.completions), 'section');
                 console.log('sections', this.sections)
                 console.log('stats', this.calcStats())
@@ -154,7 +154,7 @@ export default {
             for (var j = 0; j < this.sections.length; j++) {
                 var section = this.sections[j];
                 for (var i = 0; i < section.length; i++) {
-                    if(section[i].visible == '0'){
+                    if (section[i].visible == '0') {
                         continue;
                     }
                     if (stats[section[i].section] == undefined) {
@@ -171,10 +171,10 @@ export default {
                         };
                     }
                     section[i].count = section[i].count == undefined ? 1 : section[i].count;
-                    if(section[i].type == "longpage" || section[i].type == "hypervideo"){
+                    if (section[i].type == "longpage" || section[i].type == "hypervideo") {
                         stats[section[i].section][section[i].type].count += parseInt(section[i].count, 10);
                         stats[section[i].section][section[i].type].complete += section[i].complete != undefined ? parseInt(section[i].complete, 10) : 0;
-                    }else{
+                    } else {
                         stats[section[i].section][section[i].type].count = section[i].type == "assign" ? parseInt(section[i].count, 10) : stats[section[i].section][section[i].type].count + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
 
@@ -201,7 +201,7 @@ export default {
                 if (stats[i] == null) {
                     continue;
                 }
-                if (stats[i].hypervideo) { 
+                if (stats[i].hypervideo) {
                     el.hypervideo = {
                         count: stats[i].hypervideo.count,
                         complete: stats[i].hypervideo.complete
@@ -209,13 +209,13 @@ export default {
                     sum.hypervideo.count += stats[i].hypervideo.count;
                     sum.hypervideo.complete += isNaN(stats[i].hypervideo.complete) ? stats[i].hypervideo.complete : 0;
                 }
-                if (stats[i].longpage) { 
+                if (stats[i].longpage) {
                     el.longpage = {
                         count: stats[i].longpage.count,
                         complete: stats[i].longpage.complete
                     }
                     sum.longpage.count += stats[i].longpage.count;
-                    sum.longpage.complete +=  stats[i].longpage.complete;
+                    sum.longpage.complete += stats[i].longpage.complete;
                 }
                 if (stats[i].quiz) {
                     el.quiz = {
@@ -281,7 +281,7 @@ export default {
                 let sum = 0;
                 for (let i = section_id + 1; i < this.sections.length; i++) {
                     var res = this.stats.filter(function (d) { return d.id == i })[0];
-                    if(res == null){
+                    if (res == null) {
                         continue;
                     }
                     sum += res.hasOwnProperty('quiz') ? res.quiz.complete / res.quiz.count * 100 : 0;
@@ -314,7 +314,29 @@ export default {
         setCurrentReflectionSection: function (id) {
             this.currentReflectionSection = id;
         },
-        switchGoal(event) {
+        switchGoal: async function (event) {
+
+            const now = new Date();
+            const response = await Communication.webservice(
+                'logger',
+                {
+                    'data': {
+                        'courseid': parseInt(this.$store.getters.getCourseid, 10),
+                        'utc': parseInt(now.getTime(), 10),
+                        'action': 'change_goal',
+                        'entry': JSON.stringify({ form: this.currentGoal, to: event.target.value })
+                    }
+                }
+            );
+            if (response.success) {
+                console.log(JSON.parse(response.data));
+            } else {
+                if (response.data) {
+                    console.log('Faulty response of webservice /logger/', response.data);
+                } else {
+                    console.log('No connection to webservice /logger/');
+                }
+            }
             this.currentGoal = event.target.value;
             this.$forceUpdate();
         },
@@ -431,7 +453,7 @@ export default {
             </span>
             <span class="col-2">
                 <strong class="word-wrap">Einsendeaufgaben</strong>
-                <span class="d-none d-md-block">bearbeiten und in der Klausur Zeit  sparen</span>
+                <span class="d-none d-md-block">bearbeiten und in der Klausur Zeit sparen</span>
             </span>
             <span v-if="!controlgroup" class="col-3">
                 <strong class="word-wrap">Abschlussreflexion</strong>
@@ -532,11 +554,15 @@ export default {
         </div>
         <div class="row col-12 mb-3" style="">
             <span class="col-3"></span>
-            <span v-if="$store.state.courseid!=24" class="col-2">{{ Math.round(getRatio(sumScores.hypervideo.complete, sumScores.hypervideo.count)) }}% gesehen</span>
-            <span class="col-2">{{ Math.round(getRatio(sumScores.longpage.complete, sumScores.longpage.count)) }}% gelesen</span>
-            <span v-if="$store.state.courseid==24" class="col-2">{{ getRatio(sumScores.quiz.complete, sumScores.quiz.count) }}% erledigt<br></span>
+            <span v-if="$store.state.courseid!=24" class="col-2">{{ Math.round(getRatio(sumScores.hypervideo.complete,
+            sumScores.hypervideo.count)) }}% gesehen</span>
+            <span class="col-2">{{ Math.round(getRatio(sumScores.longpage.complete, sumScores.longpage.count)) }}%
+                gelesen</span>
+            <span v-if="$store.state.courseid==24" class="col-2">{{ getRatio(sumScores.quiz.complete,
+            sumScores.quiz.count) }}% erledigt<br></span>
             <span class="col-2">{{ getRatio(sumScores.assign.complete, sumScores.assign.count) }}% erledigt<br></span>
-            <span v-if="!controlgroup" class="col-3">{{ getNumberOfReflectedSections() }}/{{ sectionnames.length }} erledigt</span>
+            <span v-if="!controlgroup" class="col-3">{{ getNumberOfReflectedSections() }}/{{ sectionnames.length }}
+                erledigt</span>
         </div>
         <div hidden class="right col-8 small mt-3 mr-3 mb-3">
             Beachten Sie auch die anderen Lernmaterialien wie die <a href="#">Virtuellen Treffen</a>, <a
