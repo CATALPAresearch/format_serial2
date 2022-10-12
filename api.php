@@ -971,7 +971,7 @@ class format_ladtopics_external extends external_api
             )
         );
     }
-    
+
     public static function logger_returns()
     {
         return new external_single_structure(
@@ -1559,7 +1559,8 @@ class format_ladtopics_external extends external_api
         //  VALUE_REQUIRED, VALUE_OPTIONAL, or VALUE_DEFAULT. If not mentioned, a value is VALUE_REQUIRED
         return new external_function_parameters(
             array(
-                'courseid' => new external_value(PARAM_INT, 'course id')
+                'courseid' => new external_value(PARAM_INT, 'course id'),
+                'moduleid' => new external_value(PARAM_INT, 'course id')
             )
         );
     }
@@ -1578,23 +1579,30 @@ class format_ladtopics_external extends external_api
             )
         );
     }
-    public static function get_surveys($data)
+    public static function get_surveys($courseid, $moduleid)
     {
         global $CFG, $DB, $USER, $COURSE;
         $debug = [];
-        $userid = (int)$USER->id;
-        $courseid = $data;
-
-        $transaction = $DB->start_delegated_transaction();
-        $res = $DB->get_records_sql(
-            "SELECT * FROM {ladtopics_reflections} WHERE course=:course AND user=:user ORDER BY timecreated ASC;",
-            array("course" => (int)$courseid, "user" => (int)$userid)
-        );
-        $transaction->allow_commit();
-
+        
+        $res = $DB->get_record_sql(
+            "SELECT qr.submitted 
+            FROM {questionnaire_response} qr
+            JOIN {course_modules} cm ON qr.questionnaireid = cm.instance
+            WHERE
+            cm.id=:moduleid AND
+            cm.course=:courseid AND
+            qr.userid=:userid AND 
+            qr.complete='y'",
+            [
+                "courseid" => (int)$courseid,
+                "moduleid" => (int)$moduleid, 
+                "userid" => (int)$USER->id
+            ]
+            );
+        
         return array(
             'success' => true,
-            'data' => json_encode(2) // TODO
+            'data' => json_encode($res)
         );
     }
 

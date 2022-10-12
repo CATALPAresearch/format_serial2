@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
         contextID: 0,
         courseid: 0,
         userid: -1,
+        policyAccepted: false,
         url: '',
         title: '',
         strings: {},
@@ -32,6 +33,9 @@ export const store = new Vuex.Store({
         },
         setUserid(state, val){
             state.userid = val;
+        },
+        setPolicyAccepted(state, val){
+            state.policyAccepted = val;
         },
         setConfigValue(state, value){
             state.confValue = value;
@@ -73,6 +77,9 @@ export const store = new Vuex.Store({
         },
         getUserid: function(state){
             return state.userid;
+        },
+        getPolicyAccepted: function(state){
+            return state.policyAccepted;
         },
         getConfigValue: function(state){
             return state.confValue;

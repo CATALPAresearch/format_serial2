@@ -1,10 +1,18 @@
 <template>
     <div>
-        <div v-if="surveyRequired" class="alert alert-warning" style="margin:0;">
-            Do survey
+        <div hidden v-if="surveyRequired && courseid == 2" style="margin:0;">
+            <div style="margin: 10px 0;" class="row">
+                <span class="col-4 d-flex" style="font-weight:bold; font-size:1.2em; color:#000;">
+                    Helfen Sie uns und tragen Sie dazu bei die Lernangeboten besser auf Ihre Bedürfnisse anzupassen:
+                </span>
+                <a style="border-radius:10px; font-weight:bold; color:#fff !important;" class="btn btn-primary btn-lg"
+                    src="https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id=1278">
+                    Jetzt an der Befragung teilnehmen!
+                </a>
+            </div>
         </div>
         <div class="dashboard" style="display:block;">
-            <div class="col-md-12">
+            <div v-if="$store.state.policyAccepted" class="col-md-12">
                 <ul class="nav nav-tabs dashboard-tab">
                     <li class="nav-item active">
                         <a class="nav-link active" v-on:click="log('dashboard_overview_open',0)" data-toggle="tab" href="#learningoverview" role="tab">Übersicht</a></li>
@@ -59,7 +67,20 @@
 <style>
 .single-section .dashboard {
     display:none;
-} 
+}
+
+.survey-button{
+    border-radius:10px; 
+    margin: 4px auto; 
+    z-index:10440; 
+    font-weight:bold; 
+    background-color:#e79c63; 
+    opacity: 0.94;
+    color:#fff !important;
+}
+.survey-button:hover{
+    opacity: 0.9;
+}
 </style>
 
 <script>
@@ -85,8 +106,9 @@ export default {
             courseid: -1,
             context: {},
             logger: null,
-            surveyRequired: false,
+            surveyRequired: true,
             surveyLink: '',
+            questionnaireid: 1278,
             controlgroup: false,
         }
     },
@@ -109,20 +131,32 @@ export default {
             url: this.$store.state.url
         });
         this.logger.init();
-        this.prepareSurvey();
+        if(this.$store.state.courseid == 24 && this.$store.state.policyAccepted){
+            this.prepareSurvey();
+        }
+        
     },
     methods: {
         log: function (key, values) {
             var a = this.logger ? this.logger.add(key, values) : null;
         },
         prepareSurvey: async function () {
-            return;
             // which surveys have been done already
             const response = await Communication.webservice(
                 'get_surveys',
-                { courseid: this.$store.getters.getCourseid }
+                { 
+                    courseid: this.$store.getters.getCourseid,
+                    moduleid: this.questionnaireid
+                }
             );
             if (response.success) {
+                console.log(response.success,response.data);
+                response.data = JSON.parse(response.data);
+                if(response.data.submitted == null){
+                    $('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
+                }else{
+                    console.log('questionnaire submitted at '+response.data.submitted)
+                }
                 
             } else {
                 if (response.data) {

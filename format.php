@@ -61,7 +61,8 @@ if (format_ladtopics\blocking::tool_policy_accepted()) {
 $PAGE->requires->js_call_amd('format_ladtopics/app-lazy', 'init', [
     'courseid' => $COURSE->id,
     'fullPluginName' => 'format_ladtopics',
-    'userid' => $USER->id
+    'userid' => $USER->id,
+    'policyAccepted' => format_ladtopics\blocking::tool_policy_accepted()
 ]);
 
 echo html_writer::start_tag('div', array('class' => 'container dashboard-container')) 

@@ -98,12 +98,12 @@ export default {
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
 
-        this.loadCourData();
+        this.loadCourseData();
         this.loadReflection();
     },
 
     methods: {
-        loadCourData: async function () {
+        loadCourseData: async function () {
             const response = await Communication.webservice(
                 'overview',
                 { courseid: this.$store.getters.getCourseid }
@@ -568,13 +568,7 @@ export default {
             Beachten Sie auch die anderen Lernmaterialien wie die <a href="#">Virtuellen Treffen</a>, <a
                 href="#">Praktischen Übungen</a> und <a href="#">Prüfungsvorbereitungen</a>
         </div>
-        <div v-if="surveyRequired" style="margin: 50px 0;" class="col-10 d-flex justify-content-center">
-            <a style="border-radius:10px; font-weight:bold; color:#fff;" class="btn btn-warning btn-lg"
-                :src="surveyLink">
-                Ich helfe das Lernen zu verbessern
-            </a>
-        </div>
-
+        
 
         <!-- MODAL POPUP for REFLECTIONS -->
         <div class="modal fade" id="refelctionModal" tabindex="-1" role="dialog" aria-labelledby="refelctionModalLabel"
