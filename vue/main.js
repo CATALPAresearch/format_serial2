@@ -57,6 +57,7 @@ function init(courseid, fullPluginName, userid, policyAccepted) {
         $(".activity.quiz.modtype_quiz").hide();
         $(".activity.modtype_longpage").hide();
         $(".activity.modtype_usenet").hide();
+        $(".activity.modtype_safran").hide();
     }
     new Vue({
         el: "#app",

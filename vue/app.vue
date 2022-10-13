@@ -152,10 +152,10 @@ export default {
             if (response.success) {
                 console.log(response.success,response.data);
                 response.data = JSON.parse(response.data);
-                if(response.data.submitted == null){
-                    $('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
+                if(response.data.submitted){
+                    console.log('questionnaire submitted at '+response.data.submitted);
                 }else{
-                    console.log('questionnaire submitted at '+response.data.submitted)
+                    $('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
                 }
                 
             } else {

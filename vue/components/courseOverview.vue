@@ -100,6 +100,7 @@ export default {
 
         this.loadCourseData();
         this.loadReflection();
+        this.getGoal();
     },
 
     methods: {
@@ -314,8 +315,31 @@ export default {
         setCurrentReflectionSection: function (id) {
             this.currentReflectionSection = id;
         },
+        getGoal: async function () {
+            const response = await Communication.webservice(
+                'get_goal',
+                {
+                    'data': {
+                        'courseid': parseInt(this.$store.getters.getCourseid, 10)
+                    }
+                }
+            );
+            if (response.success) {
+                let tmp = JSON.parse(JSON.parse(response.data));
+                if(tmp && tmp.hasOwnProperty('to')){
+                    this.currentGoal = tmp.to;
+                    this.$forceUpdate();
+                }
+            } else {
+                if (response.data) {
+                    console.log('Faulty response of webservice /get_goal/', response.data);
+                } else {
+                    console.log('No connection to webservice /get_goal/');
+                }
+            }
+            
+        },
         switchGoal: async function (event) {
-
             const now = new Date();
             const response = await Communication.webservice(
                 'logger',
@@ -410,9 +434,9 @@ export default {
                     <select id="select-goal" @change="switchGoal($event)"
                         class="pt-1 pb-1 fa-caret-down lad-select mr-0" aria-label=".form-select-sm example"
                         style="display:inline-block; color:#333; border:none;width:128px;height:20px;font-weigth:bold;font-size:11px;">
-                        <option selected value="mastery">den Kurs zu meistern</option>
-                        <option value="passing">den Kurs zu bestehen</option>
-                        <option value="overview">einen Überblick zu bekommen</option>
+                        <option :selected="currentGoal=='mastery'" value="mastery">den Kurs zu meistern</option>
+                        <option :selected="currentGoal=='passing'" value="passing">den Kurs zu bestehen</option>
+                        <option :selected="currentGoal=='overview'" value="overview">einen Überblick zu bekommen</option>
                     </select>
                     <i class="fa fa-caret fa-caret-down mr-0"
                         style="color:#333; padding-right:2px; font:FontAwesome; height:20px; text-rendering: auto;-moz-osx-font-smoothing: grayscale;"></i>

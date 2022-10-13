@@ -34,6 +34,14 @@ $functions = array(
                 'type'        => 'read',
                 'ajax'        => true 
         ),
+        'format_ladtopics_get_goal' => array(
+                'classname'   => 'format_ladtopics_external',
+                'methodname'  => 'get_goal',
+                'classpath'   => 'course/format/ladtopics/api.php',
+                'description' => 'Obtain the plugin name',
+                'type'        => 'read',
+                'ajax'        => true 
+        ),
         'format_ladtopics_overview' => array(
                 'classname'   => 'format_ladtopics_external',
                 'methodname'  => 'overview',

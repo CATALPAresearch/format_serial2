@@ -971,7 +971,6 @@ class format_ladtopics_external extends external_api
             )
         );
     }
-
     public static function logger_returns()
     {
         return new external_single_structure(
@@ -1018,6 +1017,61 @@ class format_ladtopics_external extends external_api
         );
     }
     public static function logger_is_allowed_from_ajax()
+    {
+        return true;
+    }
+
+
+    /** 
+     * get current goal
+    */
+    public static function get_goal_parameters() {
+        return new external_function_parameters(
+            array(
+                'data' =>
+                    new external_single_structure(
+                        array(
+                        'courseid' => new external_value(PARAM_INT, 'id of course', VALUE_OPTIONAL)
+                    )
+                )
+            )
+        );
+    }
+    public static function get_goal($course)
+    {
+        global $DB, $USER;
+        
+        $res = $DB->get_record_sql(
+            "SELECT other
+            FROM {logstore_standard_log}
+            WHERE 
+            component = 'format_ladtopics' AND
+            action = 'change_goal' AND
+            courseid = :courseid AND
+            userid = :userid
+            ORDER BY timecreated desc
+            LIMIT 1
+            ;", 
+            [
+                'courseid' => $course['courseid'],
+                'userid' => $USER->id
+            ]);
+        
+        return array(
+            'success' => true,
+            'data' => json_encode($res->other)
+        );
+    }
+    public static function get_goal_returns()
+    {
+        return new external_single_structure(
+            array(
+                'success' => new external_value(PARAM_BOOL, ''),
+                'data' => new external_value(PARAM_RAW, '')
+            )
+        );
+    }
+    public static function get_goal_is_allowed_from_ajax()
     {
         return true;
     }
@@ -1564,25 +1618,9 @@ class format_ladtopics_external extends external_api
             )
         );
     }
-
-    public static function get_surveys_is_allowed_from_ajax()
-    {
-        return true;
-    }
-
-    public static function get_surveys_returns()
-    {
-        return new external_single_structure(
-            array(
-                'success' => new external_value(PARAM_BOOL, 'Success Variable'),
-                'data' => new external_value(PARAM_RAW, 'Data output')
-            )
-        );
-    }
     public static function get_surveys($courseid, $moduleid)
     {
-        global $CFG, $DB, $USER, $COURSE;
-        $debug = [];
+        global $DB, $USER;
         
         $res = $DB->get_record_sql(
             "SELECT qr.submitted 
@@ -1604,6 +1642,19 @@ class format_ladtopics_external extends external_api
             'success' => true,
             'data' => json_encode($res)
         );
+    }
+    public static function get_surveys_returns()
+    {
+        return new external_single_structure(
+            array(
+                'success' => new external_value(PARAM_BOOL, 'Success Variable'),
+                'data' => new external_value(PARAM_RAW, 'Data output')
+            )
+        );
+    }
+    public static function get_surveys_is_allowed_from_ajax()
+    {
+        return true;
     }
 
 
