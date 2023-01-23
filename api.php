@@ -1766,7 +1766,7 @@ class format_ladtopics_external extends external_api
                     cm.section,
                     (select count(*) from {course_modules} cmm JOIN {modules} m ON m.id = cmm.module WHERE m.name = 'quiz' AND cmm.course=cm.course AND cmm.section = cm.section) count,
                     q.grade max_score, 
-                    qsub.sumgrades*100 achieved_score,
+                    qsub.sumgrades*10 achieved_score,
                     qsub.timemodified  submission_time,
                     qsub.timemodified grading_time
                 FROM {quiz} q
@@ -1843,6 +1843,10 @@ lrp.userid=2 AND
 -- lrp.longpageid=1 AND
 m.name = 'longpage'
 Group by cm.id
+
+
+
+
 ;
 ;
         */

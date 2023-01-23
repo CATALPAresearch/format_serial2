@@ -26,7 +26,7 @@ import Communication from '../scripts/communication';
 
 export default {
     name: 'CourseOverview',
-    props: ['course', 'log', 'surveyRequired', 'surveyLink'],
+    props: ['course', 'log', 'surveyRequired', 'surveyLink', 'aple1801'],
 
     data: function () {
         return {
@@ -94,7 +94,7 @@ export default {
         // assign user to the control group if their user id is even 
         this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
         // do not assign user to the control group if they are not in the course 24 (operating systems etc.)
-        this.controlgroup = this.$store.state.courseid == 24 ? this.controlgroup : false;
+        this.controlgroup = this.$store.state.courseid == this.aple1801 ? this.controlgroup : false;
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
 
@@ -463,7 +463,7 @@ export default {
         </div>
         <div class="row col-12 mb-2">
             <span class="col-3" style="text-align:right;"><strong>Kurseinheit</strong></span>
-            <span v-if="$store.state.courseid!=24" class="col-2">
+            <span v-if="$store.state.courseid!=aple1801" class="col-2">
                 <strong class="word-wrap">Videos</strong>
                 <span class="d-none d-md-block">ansehen und verstehen</span>
             </span>
@@ -471,7 +471,7 @@ export default {
                 <strong class="word-wrap">Kurstext</strong>
                 <span class="d-none d-md-block">lesen und verstehen</span>
             </span>
-            <span v-if="$store.state.courseid==24" class="col-2">
+            <span v-if="$store.state.courseid==aple1801" class="col-2">
                 <strong class="word-wrap">Selbsttests</strong>
                 <span class="d-none d-md-block">lösen und Lerninhalte anwenden</span>
             </span>
@@ -491,7 +491,7 @@ export default {
                 <!-- Course Unit -->
                 {{ section.sectionname }}
             </div>
-            <div v-if="$store.state.courseid!=24" class="col-2 mb-1" style="border: solid #111 0pt;">
+            <div v-if="$store.state.courseid!=aple1801" class="col-2 mb-1" style="border: solid #111 0pt;">
                 <!-- Hypervideo -->
                 <span v-if="section.hypervideo" class="mb-1"
                     style="display:block;position:relative;width:100%;height:15px;background-color:#eee;">
@@ -519,7 +519,7 @@ export default {
                 </span>
                 <span v-if="section.longpage == null">-</span>
             </div>
-            <div v-if="$store.state.courseid==24" class="col-2 mb-1" style="border: solid #111 0pt;">
+            <div v-if="$store.state.courseid==aple1801" class="col-2 mb-1" style="border: solid #111 0pt;">
                 <!-- Self Assessment -->
                 <span v-if="section.quiz" class="mb-1"
                     style="display:block;position:relative;width:100%;height:15px;background-color:#eee;">
@@ -534,11 +534,11 @@ export default {
                 <span v-if="section.quiz" class="mb-1"
                     style="display:block;position:relative;width:100%;height:15px;background-color:#eee;">
                     <span
-                        :style="'position:absolute;background-color:'+getBarColor('quiz_score', getRatio(section.quiz.achieved_score, section.quiz.max_score))+';display:block;height:100%;width:'+ getRatio(section.quiz.achieved_score, section.quiz.max_score, 100) +'%;'">
+                        :style="'position:absolute;background-color:'+getBarColor('quiz_score', section.quiz.achieved_score)+';display:block;height:100%;width:'+ getRatio(section.quiz.achieved_score, section.quiz.max_score, 100) +'%;'">
                     </span>
                     <span class="p-1 d-none d-md-block"
                         style="z-index:10;position:absolute;color:#333;font-size:0.7rem;vertical-align:middle;display:block;height:100%;">
-                        {{ Math.round(getRatio(section.quiz.achieved_score, section.quiz.max_score), 100) }}% korrekt
+                        {{ Math.round(section.quiz.achieved_score) * 10 }}% korrekt
                     </span>
                 </span>
                 <span v-if="section.quiz == null">-</span>
@@ -578,11 +578,11 @@ export default {
         </div>
         <div class="row col-12 mb-3" style="">
             <span class="col-3"></span>
-            <span v-if="$store.state.courseid!=24" class="col-2">{{ Math.round(getRatio(sumScores.hypervideo.complete,
+            <span v-if="$store.state.courseid!=aple1801" class="col-2">{{ Math.round(getRatio(sumScores.hypervideo.complete,
             sumScores.hypervideo.count)) }}% gesehen</span>
             <span class="col-2">{{ Math.round(getRatio(sumScores.longpage.complete, sumScores.longpage.count)) }}%
                 gelesen</span>
-            <span v-if="$store.state.courseid==24" class="col-2">{{ getRatio(sumScores.quiz.complete,
+            <span v-if="$store.state.courseid==aple1801" class="col-2">{{ getRatio(sumScores.quiz.complete,
             sumScores.quiz.count) }}% erledigt<br></span>
             <span class="col-2">{{ getRatio(sumScores.assign.complete, sumScores.assign.count) }}% erledigt<br></span>
             <span v-if="!controlgroup" class="col-3">{{ getNumberOfReflectedSections() }}/{{ sectionnames.length }}

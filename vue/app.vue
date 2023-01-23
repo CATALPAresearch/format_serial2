@@ -37,6 +37,7 @@
                             ref="childDashboardOverview" 
                             v-on:log="log" 
                             v-bind:course="course"
+                            v-bind:aple1801="aple1801"
                             v-bind:surveyRequired="surveyRequired"
                             v-bind:surveyLink="surveyLink"></course-overview>
                     </div> 
@@ -54,7 +55,7 @@
         </div>
         <hr class="mb-3 mt-3" />
         
-        <div v-if="courseid == 24" class="mb-3 mt-3" style="width:100%;height:auto;">
+        <div v-if="courseid == aple1801" class="mb-3 mt-3" style="width:100%;height:auto;">
             <video controls="true" style="width:100%;height:100%">
                 <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
                 <source v-if="controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Kontrollgruppe.mp4" type="video/mp4"></source>
@@ -103,6 +104,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
+            aple1801: 2,
             courseid: -1,
             context: {},
             logger: null,
@@ -119,8 +121,8 @@ export default {
         this.courseid = this.$store.state.courseid;
         // assign user to the control group if their user id is even 
         this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
-        // do not assign user to the control group if they are not in the course 24 (operating systems etc.)
-        this.controlgroup = this.$store.state.courseid == 24 ? this.controlgroup : false;
+        // do not assign user to the control group if they are not in the course aple1801/24 (operating systems etc.)
+        this.controlgroup = this.$store.state.courseid == this.aple1801 ? this.controlgroup : false;
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
         
@@ -131,7 +133,7 @@ export default {
             url: this.$store.state.url
         });
         this.logger.init();
-        if(this.$store.state.courseid == 24 && this.$store.state.policyAccepted){
+        if(this.$store.state.courseid == this.aple1801 && this.$store.state.policyAccepted){
             this.prepareSurvey();
         }
         
@@ -150,7 +152,6 @@ export default {
                 }
             );
             if (response.success) {
-                console.log(response.success,response.data);
                 response.data = JSON.parse(response.data);
                 if(response.data.submitted){
                     console.log('questionnaire submitted at '+response.data.submitted);
