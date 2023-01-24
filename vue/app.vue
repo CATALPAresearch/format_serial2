@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div hidden v-if="surveyRequired && courseid == 2" style="margin:0;">
+        <!-- Questionnaire banner 
+        <div hidden v-if="surveyRequired && courseid == aple1801" style="margin:0;">
             <div style="margin: 10px 0;" class="row">
                 <span class="col-4 d-flex" style="font-weight:bold; font-size:1.2em; color:#000;">
                     Helfen Sie uns und tragen Sie dazu bei die Lernangeboten besser auf Ihre Bedürfnisse anzupassen:
@@ -11,6 +12,32 @@
                 </a>
             </div>
         </div>
+        -->
+        <!-- Questionnaire modal -->
+        <div v-if="surveyRequired && courseid == aple1801" 
+            class="modal fade" 
+            id="questionnaireModal" 
+            data-keyboard="false" 
+            data-backdrop="static" 
+            tabindex="-1" role="dialog" aria-labelledby="questionnaireModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-body">
+                    <span class="pt-4 pb-4 col-12 d-flex" style="font-weight:bold; font-size:2.1em; color:#333;">
+                    Bitte nehmen Sie sich 10 Minuten Zeit für unsere Befragung, damit wir das Lernangebot besser an Ihre Bedürfnisse anpassen können. <br><br>Vielen Dank! 
+                    </span>
+                </div>
+                <div class="modal-footer text-center">
+                    <a style="border-radius:10px; font-weight:bold; color:#fff !important;" class="btn btn-primary btn-lg"
+                        src="https://aple.fernuni-hagen.de/mod/questionnaire/complete.php?id=1284">
+                        Jetzt an der Befragung teilnehmen!
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- -->
         <div class="dashboard" style="display:block;">
             <div v-if="$store.state.policyAccepted" class="col-md-12">
                 <ul class="nav nav-tabs dashboard-tab">
@@ -99,6 +126,7 @@
 import Logger from './scripts/logger';
 import Communication from './scripts/communication';
 import CourseOverview from './components/courseOverview';
+import jquery from "jquery";
 
 export default {
     data: function () {
@@ -110,7 +138,7 @@ export default {
             logger: null,
             surveyRequired: true,
             surveyLink: '',
-            questionnaireid: 1278,
+            questionnaireid: 1284,
             controlgroup: false,
         }
     },
@@ -136,7 +164,7 @@ export default {
         if(this.$store.state.courseid == this.aple1801 && this.$store.state.policyAccepted){
             this.prepareSurvey();
         }
-        
+        //$('#questionnaireModal').modal('show'); 
     },
     methods: {
         log: function (key, values) {
@@ -144,6 +172,9 @@ export default {
         },
         prepareSurvey: async function () {
             // which surveys have been done already
+            if(this.$store.getters.getisModerator){
+                return;
+            }
             const response = await Communication.webservice(
                 'get_surveys',
                 { 
@@ -155,8 +186,9 @@ export default {
                 response.data = JSON.parse(response.data);
                 if(response.data.submitted){
                     console.log('questionnaire submitted at '+response.data.submitted);
-                }else{
-                    $('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
+                }else if(this.courseid == this.aple1801){
+                    $('#questionnaireModal').modal('show');
+                    //$('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
                 }
                 
             } else {

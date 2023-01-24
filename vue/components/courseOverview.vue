@@ -51,6 +51,7 @@ export default {
                 hypervideo: { count: 0, complete: 0, achieved_score: 0, max_score: 0 }
             },
             reflections: [],
+            reflectionError: false, 
             currentReflectionSection: 0,
             currentGoal: 'mastery',
             goals: {
@@ -297,6 +298,7 @@ export default {
             return '#ddd';
         },
         sectionMinimumAchived: function (sectionId) {
+            return true;
             var res = this.stats.filter(function (d) { return d.id == sectionId })[0];
             var quiz_ratio = res.hasOwnProperty('quiz') ? res.quiz.complete / res.quiz.count * 100 : 0;
             var assign_ratio = res.hasOwnProperty('assign') ? res.assign.complete / res.assign.count * 100 : 0;
@@ -383,6 +385,7 @@ export default {
         },
         saveReflection: async function (data) {
             var _this = this;
+            this.reflectionError = false;  
             const response = await Communication.webservice(
                 'reflectioncreate',
                 {
@@ -395,11 +398,15 @@ export default {
             );
             if (response.success) {
                 this.loadReflection();
+                this.reflection = '';
+                this.reflectionError = false;
+                $('#refelctionModal').modal('hide');
             } else {
+                this.reflectionError = true; 
                 if (response.data) {
                     console.log('Faulty response of webservice /reflectionread/', response.data);
                 } else {
-                    console.log('No connection to webservice /reflectionread/');
+                    console.log('No connection to webservice /reflectionread/', response.data);
                 }
             }
         },
@@ -601,7 +608,7 @@ export default {
                 <form @submit.prevent="saveReflection">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="refelctionModalLabel">Abschlussreflektion</h5>
+                            <h5 class="modal-title" id="refelctionModalLabel">Abschlussreflektion zu KE {{ currentReflectionSection }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -613,7 +620,7 @@ export default {
                         It is important that you answer these questions truthfully so that you can properly direct your learning.
                         -->
                                 Diese Aufgabe soll Ihnen helfen einen Moment innezuhalten und über Ihren Lernfortschritt
-                                in der Kurseinheit xxx nachzudenken.
+                                in der Kurseinheit {{currentReflectionSection}} nachzudenken.
                                 Es ist wichtig, dass Sie diese Aufgaben wahrheitsgemäß beantworten damit Sie Ihr Lernen
                                 danach ausrichten können.
                                 <br>
@@ -671,7 +678,8 @@ export default {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                            <div v-if="reflectionError" class="alert alert-danger">Entschuldigen Sie, es ist ein Fehler aufgetreten. Wir kümmern uns darum. Haben Sie bitte Geduld.</div>
+                            <button type="button" class="btn btn-link mr-4" data-dismiss="modal">Schließen</button>
                             <button type="submit" class="btn btn-primary">Speichern</button>
                         </div>
                     </div>

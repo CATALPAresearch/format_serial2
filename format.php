@@ -58,10 +58,51 @@ if (format_ladtopics\blocking::tool_policy_accepted()) {
 */
 
 
+/**
+     * A Attribute to store if the user is a moderator for the course
+     */
+    $_moderator = null;
+    $courseid;
+    $found;
+    $islogged;
+
+    /**
+     * A Method to test if the user is a moderator for the course
+     */
+
+    function checkModeratorStatus(){
+        try{
+            global $USER, $COURSE;      
+            $context = context_course::instance($COURSE->id);            
+            $loggedIn = isloggedin();
+            $roles = get_user_roles($context, $USER->id);                 
+            $found = false;
+            if(is_siteadmin($USER->id)){
+                return true;
+            }
+            foreach($roles as $key => $value){
+                if(isset($value->shortname)){
+                    if($value->shortname === "manager" || $value->shortname === "coursecreator"){
+                        $found = true;
+                        break;
+                    }                    
+                }
+            }    
+            if($found === true && $loggedIn === true) return true;            
+            return false;        
+        } catch(Exception $ex){
+            var_dump($ex);
+            return false;
+        }    
+    }
+
+    
+
 $PAGE->requires->js_call_amd('format_ladtopics/app-lazy', 'init', [
     'courseid' => $COURSE->id,
     'fullPluginName' => 'format_ladtopics',
     'userid' => $USER->id,
+    'isModerator' => checkModeratorStatus(),
     'policyAccepted' => format_ladtopics\blocking::tool_policy_accepted()
 ]);
 

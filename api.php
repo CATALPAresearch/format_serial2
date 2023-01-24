@@ -1935,7 +1935,7 @@ Group by cm.id
         $courseid = $data;
         $transaction = $DB->start_delegated_transaction();
         $res = $DB->get_records_sql(
-            "SELECT * FROM {ladtopics_reflections} WHERE course=:course AND user=:user ORDER BY timecreated ASC",
+            "SELECT * FROM {ladtopics_reflections} WHERE courseid=:course AND userid=:user ORDER BY timecreated ASC",
             array("course" => (int)$courseid, "user" => (int)$userid)
         );
         $transaction->allow_commit();
@@ -1988,8 +1988,8 @@ Group by cm.id
         $date = date_create();
 
         $r = new stdClass();
-        $r->user = (int)$userid;
-        $r->course = (int)$data['course'];
+        $r->userid = (int)$userid;
+        $r->courseid = (int)$data['course'];
         $r->section = $data['section'];
         $r->reflection = $data['reflection'];
         $r->timecreated = date_timestamp_get($date);

@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
         contextID: 0,
         courseid: 0,
         userid: -1,
+        isModerator: false,
         policyAccepted: false,
         url: '',
         title: '',
@@ -30,6 +31,9 @@ export const store = new Vuex.Store({
     mutations: {
         setCourseid(state, val){
             state.courseid = val;
+        },
+        setisModerator(state, val){
+            state.isModerator = val;
         },
         setUserid(state, val){
             state.userid = val;
@@ -74,6 +78,9 @@ export const store = new Vuex.Store({
     getters: {
         getCourseid: function(state){
             return state.courseid;
+        },
+        getisModerator: function(state){
+            return state.isModerator;
         },
         getUserid: function(state){
             return state.userid;

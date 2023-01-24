@@ -4,16 +4,17 @@ import { store } from "./store";
 import App from "./app.vue";
 import Communication from "./scripts/communication";
 
-function init(courseid, fullPluginName, userid, policyAccepted) {
+
+function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
     // We need to overwrite the variable for lazy loading.
     __webpack_public_path__ =
         M.cfg.wwwroot + "/course/format/ladtopics/amd/build/";
 
     Communication.setPluginName(fullPluginName);
-
     Vue.use(VueRouter);
 
     store.commit("setCourseid", courseid);
+    store.commit("setisModerator", isModerator);
     store.commit("setPluginName", fullPluginName);
     store.commit("setUserid", userid);
     store.commit("setPolicyAccepted", policyAccepted);
