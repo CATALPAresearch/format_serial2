@@ -82,13 +82,15 @@ if (format_ladtopics\blocking::tool_policy_accepted()) {
             }
             foreach($roles as $key => $value){
                 if(isset($value->shortname)){
-                    if($value->shortname === "manager" || $value->shortname === "coursecreator"){
+                    if($value->shortname === "manager" || $value->shortname === "coursecreator" || $value->shortname === "teacher" || $value->shortname === "editingteacher"){
                         $found = true;
                         break;
                     }                    
                 }
             }    
-            if($found === true && $loggedIn === true) return true;            
+            if($found === true && $loggedIn === true){
+                return true;
+            }
             return false;        
         } catch(Exception $ex){
             var_dump($ex);

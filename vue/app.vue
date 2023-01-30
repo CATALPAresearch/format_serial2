@@ -29,7 +29,7 @@
                 </div>
                 <div class="modal-footer text-center">
                     <a style="border-radius:10px; font-weight:bold; color:#fff !important;" class="btn btn-primary btn-lg"
-                        src="https://aple.fernuni-hagen.de/mod/questionnaire/complete.php?id=1284">
+                        href="https://aple.fernuni-hagen.de/mod/questionnaire/complete.php?id=1284">
                         Jetzt an der Befragung teilnehmen!
                     </a>
                 </div>
@@ -132,7 +132,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: 2,
+            aple1801: 24,
             courseid: -1,
             context: {},
             logger: null,
