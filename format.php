@@ -109,7 +109,7 @@ $PAGE->requires->js_call_amd('format_ladtopics/app-lazy', 'init', [
 ]);
 
 echo html_writer::start_tag('div', array('class' => 'container dashboard-container')) 
-. '<div id="app"></div>' . html_writer::end_tag('div') 
+. '<div id="app"></div><div id="promptPanelApp"></div>' . html_writer::end_tag('div') 
 ;
 
 $renderer = $PAGE->get_renderer('format_ladtopics');

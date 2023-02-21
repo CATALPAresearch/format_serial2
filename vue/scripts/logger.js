@@ -116,6 +116,7 @@ export default function (courseId, options) {
      * Makes an AJAX call to send the log data set to the server
      */
     this.sendLog = function (entry) {
+        return; // FIXME
         let _this = this;
         ajax.call([{
             methodname: 'format_lattopics_log',

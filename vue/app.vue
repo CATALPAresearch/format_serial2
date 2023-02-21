@@ -37,14 +37,42 @@
             </div>
         </div>
 
+        <h3 class="mb-3">Semesterübersicht</h3>
+        
+        <div class="row mb-3 form-group">
+            <div class="col-8">
+                <label for="select-goal" style="font-size:11px;">Mein Ziel ist es </label>
+                <div style="background-color:#e9f5f9; color:#333; display:inline-block; width:140px; height:20px;">
+                    <select id="select-goal" @change="switchGoal($event)"
+                        class="pt-1 pb-1 fa-caret-down lad-select mr-0" aria-label=".form-select-sm example"
+                        style="display:inline-block; color:#333; border:none;width:128px;height:20px;font-weigth:bold;font-size:11px;">
+                        <option :selected="currentGoal=='mastery'" value="mastery">den Kurs zu meistern</option>
+                        <option :selected="currentGoal=='passing'" value="passing">den Kurs zu bestehen</option>
+                        <option :selected="currentGoal=='overview'" value="overview">einen Überblick zu bekommen</option>
+                    </select>
+                    <i class="fa fa-caret fa-caret-down mr-0"
+                        style="color:#333; padding-right:2px; font:FontAwesome; height:20px; text-rendering: auto;-moz-osx-font-smoothing: grayscale;"></i>
+                </div>
+            </div>
+        </div>
+        
         <!-- -->
         <div class="dashboard" style="display:block;">
             <div v-if="$store.state.policyAccepted" class="col-md-12">
                 <ul class="nav nav-tabs dashboard-tab">
                     <li class="nav-item active">
-                        <a class="nav-link active" v-on:click="log('dashboard_overview_open',0)" data-toggle="tab" href="#learningoverview" role="tab">Übersicht</a></li>
+                        <router-link to="/" class="nav-link" v-on:click="log('dashboard_overview_open',0)">Übersicht</router-link>
+                        <a hidden class="nav-link active" v-on:click="log('dashboard_overview_open',0)" data-toggle="tab" href="#learningoverview" role="tab">Übersicht</a>
+                    </li>
                     <li hidden class="nav-item">
-                        <a class="nav-link" v-on:click="log('dashboard_completion_open',0)" data-toggle="tab" href="#learningstatus" role="tab">Genutzte Lernangebote</a></li>
+                        <router-link to="/completion" class="nav-link" v-on:click="log('dashboard_completion_open',0)">Genutzte Lernangebote</router-link>
+                        <a hidden class="nav-link" v-on:click="log('dashboard_completion_open',0)" data-toggle="tab" href="#learningstatus" role="tab">Genutzte Lernangebote</a>
+                    </li>
+                    <li hidden class="nav-item">
+                        <router-link to="/strategies" class="nav-link" v-on:click="log('dashboard_strategy_open',0)">Lernstrategien</router-link>
+                        <a hidden class="nav-link" v-on:click="log('dashboard_stratgy_open',0)" data-toggle="tab" href="#learningstrategy" role="tab">Lernstrategien</a>
+                    </li>
+
                     <li hidden class="nav-item ">
                         <a class="nav-link" v-on:click="log('dashboard_time-management_open',0)" data-toggle="tab" href="#timemanagement" role="tab">Zeitmanagement</a></li>
                     <li hidden class="nav-item">
@@ -58,26 +86,15 @@
                     </li>
                 </ul>
                 <br>
-                <div class="tab-content" style="display:block;">
-                    <div class="tab-pane fade show active" id="learningoverview" role="tabpanel">
-                        <course-overview 
-                            ref="childDashboardOverview" 
-                            v-on:log="log" 
-                            v-bind:course="course"
-                            v-bind:aple1801="aple1801"
-                            v-bind:surveyRequired="surveyRequired"
-                            v-bind:surveyLink="surveyLink"></course-overview>
-                    </div> 
-                    <div class="tab-pane fade" id="learningstatus" role="tabpanel">
-                        {{name}}
-                    </div>    
-                    <div class="tab-pane fade" id="timemanagement" role="tabpanel">Zeitmanagement</div>
-                    <div class="tab-pane fade" id="communication" role="tabpanel">Kommunikation</div>
-                    <div class="tab-pane fade" id="strategy" role="tabpanel">
-                        
-                    </div>
-                    <div class="tab-pane fade" id="quiz" role="tabpanel">Quiz</div>
-                </div>
+                <router-view 
+                    style="display:block;"
+                    v-on:log="log" 
+                    v-bind:course="course"
+                    v-bind:aple1801="aple1801"
+                    v-bind:currentGoal="currentGoal"
+                    v-bind:surveyRequired="surveyRequired"
+                    v-bind:surveyLink="surveyLink"
+                    ></router-view>
             </div>
         </div>
         <hr class="mb-3 mt-3" />
@@ -93,6 +110,22 @@
 </template>
 
 <style>
+ul.dashboard-tab li.nav-item a, ul.dashboard-tab.nav-tabs a  {
+    border: none;
+    border-bottom: solid 3px #fff;
+    
+}
+
+ul.dashboard-tab .nav-link:hover {
+    border: none;
+    border-bottom: solid 3px #008fac;
+}
+
+ul.dashboard-tab .nav-link a.active {
+    border: none;
+    border-bottom: solid 3px #008fac;
+}
+
 .single-section .dashboard {
     display:none;
 }
@@ -126,13 +159,14 @@
 import Logger from './scripts/logger';
 import Communication from './scripts/communication';
 import CourseOverview from './components/courseOverview';
-import jquery from "jquery";
+import CourseCompletion from './components/courseCompletion';
+import LearningStrategy from './components/learningStrategies';
 
 export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: 24,
+            aple1801: 24, // 24 // 3
             courseid: -1,
             context: {},
             logger: null,
@@ -140,10 +174,13 @@ export default {
             surveyLink: '',
             questionnaireid: 1284,
             controlgroup: false,
+            currentGoal: 'mastery'
         }
     },
     components: {
-        CourseOverview
+        CourseOverview,
+        CourseCompletion,
+        LearningStrategy
     },
     mounted: function () {
         this.courseid = this.$store.state.courseid;
@@ -164,9 +201,59 @@ export default {
         if(this.$store.state.courseid == this.aple1801 && this.$store.state.policyAccepted){
             this.prepareSurvey();
         }
+        this.getGoal();
         //$('#questionnaireModal').modal('show'); 
     },
     methods: {
+        getGoal: async function () {
+            const response = await Communication.webservice(
+                'get_goal',
+                {
+                    'data': {
+                        'courseid': parseInt(this.$store.getters.getCourseid, 10)
+                    }
+                }
+            );
+            if (response.success) {
+                let tmp = JSON.parse(JSON.parse(response.data));
+                if(tmp && tmp.hasOwnProperty('to')){
+                    this.currentGoal = tmp.to;
+                    this.$forceUpdate();
+                }
+            } else {
+                if (response.data) {
+                    console.log('Faulty response of webservice /get_goal/', response.data);
+                } else {
+                    console.log('No connection to webservice /get_goal/');
+                }
+            }
+            
+        },
+        switchGoal: async function (event) {
+            const now = new Date();
+            const response = await Communication.webservice(
+                'logger',
+                {
+                    'data': {
+                        'courseid': parseInt(this.$store.getters.getCourseid, 10),
+                        'utc': parseInt(now.getTime(), 10),
+                        'action': 'change_goal',
+                        'entry': JSON.stringify({ form: this.currentGoal, to: event.target.value })
+                    }
+                }
+            );
+            if (response.success) {
+                console.log(JSON.parse(response.data));
+            } else {
+                if (response.data) {
+                    console.log('Faulty response of webservice /logger/', response.data);
+                } else {
+                    console.log('No connection to webservice /logger/');
+                }
+            }
+            this.currentGoal = event.target.value;
+            this.$forceUpdate();
+        },
         log: function (key, values) {
             var a = this.logger ? this.logger.add(key, values) : null;
         },

@@ -4,6 +4,12 @@ import { store } from "./store";
 import App from "./app.vue";
 import Communication from "./scripts/communication";
 
+const NotFound = { template: '<div>Ups, wir konnten leider nicht finden, was du suchst.</div>' }
+import CourseOverview from './components/courseOverview';
+import CourseCompletion from './components/courseCompletion';
+import LearningStrategy from './components/learningStrategies';
+
+
 
 function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
     // We need to overwrite the variable for lazy loading.
@@ -22,11 +28,12 @@ function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
 
     // You have to use child routes if you use the same component. Otherwise the component's beforeRouteUpdate
     // will not be called.
-    /*const routes = [
-          { path: '/', component: mainPage},
-          { path: '/store', component: storePage},
-          { path: '*', component: notFound}
-      ];*/
+    const routes = [
+          { path: '/', component: CourseOverview, props: true},
+          { path: '/completion', component: CourseCompletion, props: true},
+          { path: '/strategies/:strategy?', component: LearningStrategy, props: true},
+          { path: '*', component: NotFound}
+      ];
 
     // base URL is /mod/vuejsdemo/view.php/[course module id]/
     const currenturl = window.location.pathname;
@@ -37,8 +44,8 @@ function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
         "/";
 
     const router = new VueRouter({
-        mode: "history",
-        // routes,
+        mode: "hash",
+        routes,
         base,
     });
 
@@ -60,10 +67,10 @@ function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
         $(".activity.modtype_usenet").hide();
         $(".activity.modtype_safran").hide();
     }
-    new Vue({
+    var LADTOPICS = new Vue({
         el: "#app",
         store,
-        // router,
+        router,
         render: (h) => h(App),
     });
 

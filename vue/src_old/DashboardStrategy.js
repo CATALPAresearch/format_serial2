@@ -159,8 +159,8 @@ define([
 
                 if (this.storageAvailable('localStorage')) {
                     try {
-                        if (localStorage.getItem('ladtopics_strategy_bookmarks') !== null) {
-                            this.bookmarked = JSON.parse(localStorage.getItem('ladtopics_strategy_bookmarks'));
+                        if (localStorage.getItem('ladtopics_course_bookmarks') !== null) {
+                            this.bookmarked = JSON.parse(localStorage.getItem('ladtopics_course_bookmarks'));
                         } else {
                             this.bookmarked = {};
                         }
