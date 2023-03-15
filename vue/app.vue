@@ -14,7 +14,7 @@
         </div>
         -->
         <!-- Questionnaire modal -->
-        <div v-if="surveyRequired && courseid == aple1801" 
+        <div v-if="surveyRequired && aple1801.includes(courseid)" 
             class="modal fade" 
             id="questionnaireModal" 
             data-keyboard="false" 
@@ -99,7 +99,7 @@
         </div>
         <hr class="mb-3 mt-3" />
         
-        <div v-if="courseid == aple1801" class="mb-3 mt-3" style="width:100%;height:auto;">
+        <div v-if="aple1801.includes(courseid)" class="mb-3 mt-3" style="width:100%;height:auto;">
             <video controls="true" style="width:100%;height:100%">
                 <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
                 <source v-if="controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Kontrollgruppe.mp4" type="video/mp4"></source>
@@ -166,7 +166,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: 24, // 24 // 3
+            aple1801: [2, 5, 20, 24, 26],
             courseid: -1,
             context: {},
             logger: null,
@@ -187,7 +187,7 @@ export default {
         // assign user to the control group if their user id is even 
         this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
         // do not assign user to the control group if they are not in the course aple1801/24 (operating systems etc.)
-        this.controlgroup = this.$store.state.courseid == this.aple1801 ? this.controlgroup : false;
+        this.controlgroup = this.aple1801.includes(this.$store.state.courseid) ? this.controlgroup : false;
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
         
@@ -198,7 +198,7 @@ export default {
             url: this.$store.state.url
         });
         this.logger.init();
-        if(this.$store.state.courseid == this.aple1801 && this.$store.state.policyAccepted){
+        if(this.aple1801.includes(this.$store.state.courseid) && this.$store.state.policyAccepted){
             this.prepareSurvey();
         }
         this.getGoal();
@@ -273,7 +273,7 @@ export default {
                 response.data = JSON.parse(response.data);
                 if(response.data.submitted){
                     console.log('questionnaire submitted at '+response.data.submitted);
-                }else if(this.courseid == this.aple1801){
+                }else if(this.aple1801.includes(this.courseid)){
                     $('#questionnaireModal').modal('show');
                     //$('body').prepend("<a target='new' class='btn btn-lg fixed-top w-50 survey-button' href='https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id="+ this.questionnaireid +"'>Helfen Sie uns das Lernangebot zu verbessern und nehmen Sie an unserer Befragung teil.</a>");
                 }

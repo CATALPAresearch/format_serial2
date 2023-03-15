@@ -126,7 +126,7 @@ export default {
         // assign user to the control group if their user id is even 
         this.controlgroup = this.$store.state.userid % 2 == 0 ? true : false;
         // do not assign user to the control group if they are not in the course 24 (operating systems etc.)
-        this.controlgroup = this.$store.state.courseid == this.aple1801 ? this.controlgroup : false;
+        this.controlgroup = this.aple1801.includes(this.$store.state.courseid) ? this.controlgroup : false;
         // do not assign user to the control group if they are accessing the system on localhost
         this.controlgroup = window.location.hostname == 'localhost' ? false : this.controlgroup;
 

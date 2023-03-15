@@ -30,7 +30,7 @@ export const store = new Vuex.Store({
     //strict: process.env.NODE_ENV !== 'production',
     mutations: {
         setCourseid(state, val){
-            state.courseid = val;
+            state.courseid = parseInt(val);
         },
         setisModerator(state, val){
             state.isModerator = val;
