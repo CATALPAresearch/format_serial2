@@ -4,7 +4,7 @@ import { store } from "./store";
 import App from "./app.vue";
 import Communication from "./scripts/communication";
 
-const NotFound = { template: '<div>Ups, wir konnten leider nicht finden, was du suchst.</div>' }
+const NotFound = { template: '<div>Ups, wir konnten leider nicht finden was Sie suchen.</div>' }
 import CourseOverview from './components/courseOverview';
 import CourseCompletion from './components/courseCompletion';
 import LearningStrategy from './components/learningStrategies';

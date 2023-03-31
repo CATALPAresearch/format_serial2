@@ -32,7 +32,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 function xmldb_format_ladtopics_upgrade($oldversion) {
     global $CFG, $DB;
-
     
     return true;
 }
