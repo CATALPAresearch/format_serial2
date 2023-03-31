@@ -259,6 +259,15 @@ export default {
             this.sumScores = sum;
             return out;
         },
+        shortenTitle: function(title){
+            return title.replace('Kurseinheit', 'KE');
+        },
+        isNoExcludedSection: function(title){
+            if(title=='Willkommen!' || title == 'Allgemeines' || title == 'General'){
+                return false;
+            }
+            return true;
+        },
         getRatio: function (a, b, max = 0) {
             if (parseInt(a) > 0 && parseInt(b) > 0) {
                 var ratio = (parseInt(a) / parseInt(b)) * 100;
@@ -441,10 +450,10 @@ export default {
             </span>
         </div>
 
-        <div v-for="(section, index) in stats" class="row col-12 mb-0">
+        <div v-for="(section, index) in stats" v-if="isNoExcludedSection(section.sectionname)" class="row col-12 mb-0">
             <div class="col-3 mb-1 word-wrap" style="border: solid #111 0pt;text-align:right;">
                 <!-- Course Unit -->
-                {{ section.sectionname }}
+                {{ shortenTitle(section.sectionname) }}
             </div>
             <div v-if="!aple1801.includes($store.state.courseid)" class="col-2 mb-1" style="border: solid #111 0pt;">
                 <!-- Hypervideo -->

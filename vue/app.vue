@@ -64,11 +64,11 @@
                         <router-link to="/" class="nav-link" v-on:click="log('dashboard_overview_open',0)">Übersicht</router-link>
                         <a hidden class="nav-link active" v-on:click="log('dashboard_overview_open',0)" data-toggle="tab" href="#learningoverview" role="tab">Übersicht</a>
                     </li>
-                    <li hidden class="nav-item">
+                    <li class="nav-item">
                         <router-link to="/completion" class="nav-link" v-on:click="log('dashboard_completion_open',0)">Genutzte Lernangebote</router-link>
                         <a hidden class="nav-link" v-on:click="log('dashboard_completion_open',0)" data-toggle="tab" href="#learningstatus" role="tab">Genutzte Lernangebote</a>
                     </li>
-                    <li hidden class="nav-item">
+                    <li class="nav-item">
                         <router-link to="/strategies" class="nav-link" v-on:click="log('dashboard_strategy_open',0)">Lernstrategien</router-link>
                         <a hidden class="nav-link" v-on:click="log('dashboard_stratgy_open',0)" data-toggle="tab" href="#learningstrategy" role="tab">Lernstrategien</a>
                     </li>
@@ -101,8 +101,8 @@
         
         <div v-if="aple1801.includes(courseid)" class="mb-3 mt-3" style="width:100%;height:auto;">
             <video controls="true" style="width:100%;height:100%">
-                <source v-if="!controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Versuchsgruppe.mp4" type="video/mp4">
-                <source v-if="controlgroup" src="https://equel.de/videos-eds/1801-Intro-WS2022_23_Kontrollgruppe.mp4" type="video/mp4"></source>
+                <source v-if="!controlgroup" src="https://nise81.com/1801-Intro-SS2023_Versuchsgruppe.mp4" type="video/mp4">
+                <source v-if="controlgroup" src="https://nise81.com/1801-Intro-SS2023_Kontrollgruppe.mp4" type="video/mp4"></source>
                 Leider können wir Ihnen das Begrüßungsvideo nicht zeigen, da Ihr Browser keine Videos unterstützt.
             </video>
         </div>
@@ -166,7 +166,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: [2, 5, 20, 24, 26],
+            aple1801: [2, 5, 20, 24, 26, 8],
             courseid: -1,
             context: {},
             logger: null,
