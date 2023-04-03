@@ -7,7 +7,7 @@
                     Helfen Sie uns und tragen Sie dazu bei die Lernangeboten besser auf Ihre Bedürfnisse anzupassen:
                 </span>
                 <a style="border-radius:10px; font-weight:bold; color:#fff !important;" class="btn btn-primary btn-lg"
-                    src="https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id=1278">
+                    src="https://aple.fernuni-hagen.de/mod/questionnaire/view.php?id=1659">
                     Jetzt an der Befragung teilnehmen!
                 </a>
             </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="modal-footer text-center">
                     <a style="border-radius:10px; font-weight:bold; color:#fff !important;" class="btn btn-primary btn-lg"
-                        href="https://aple.fernuni-hagen.de/mod/questionnaire/complete.php?id=1284">
+                        href="https://aple.fernuni-hagen.de/mod/questionnaire/complete.php?id=1659">
                         Jetzt an der Befragung teilnehmen!
                     </a>
                 </div>
@@ -172,7 +172,7 @@ export default {
             logger: null,
             surveyRequired: true,
             surveyLink: '',
-            questionnaireid: 1284,
+            questionnaireid: 1659,
             controlgroup: false,
             currentGoal: 'mastery'
         }
