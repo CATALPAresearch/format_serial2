@@ -177,7 +177,7 @@ export default {
                         stats[section[i].section][section[i].type].complete += section[i].complete != undefined ? parseInt(section[i].complete, 10) : 0;
 
                     } else if(section[i].type == "assign"){
-                        console.log('Dash::',stats[section[i].section][section[i].type]);
+                        //console.log('Dash::',stats[section[i].section][section[i].type]);
                         stats[section[i].section][section[i].type].count = stats[section[i].section][section[i].type].count + 1;//parseInt(section[i].count, 10) + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
                         stats[section[i].section][section[i].type].achieved_score += section[i].achieved_score != null ? parseInt(section[i].achieved_score, 10) : 0;
