@@ -177,13 +177,13 @@ export default {
                         stats[section[i].section][section[i].type].complete += section[i].complete != undefined ? parseInt(section[i].complete, 10) : 0;
 
                     } else if(section[i].type == "assign"){
-                        stats[section[i].section][section[i].type].count = parseInt(section[i].count, 10)
+                        console.log('Dash::',stats[section[i].section][section[i].type]);
+                        stats[section[i].section][section[i].type].count = stats[section[i].section][section[i].type].count + 1;//parseInt(section[i].count, 10) + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
                         stats[section[i].section][section[i].type].achieved_score += section[i].achieved_score != null ? parseInt(section[i].achieved_score, 10) : 0;
                         stats[section[i].section][section[i].type].max_score += section[i].max_score != null ? parseInt(section[i].max_score, 10) : 0;
 
                     } else if(section[i].type == "quiz"){
-                        console.log('Dash::',stats[section[i].section][section[i].type]);
                         stats[section[i].section][section[i].type].count = stats[section[i].section][section[i].type].count + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
                         stats[section[i].section][section[i].type].achieved_score += section[i].achieved_score != null && section[i].achieved_score >= 0 ? parseInt(section[i].achieved_score, 10) : 0;
@@ -257,13 +257,22 @@ export default {
                 out.push(el);
             }
             this.sumScores = sum;
+            console.log('SUMME',out)
             return out;
         },
         shortenTitle: function(title){
             return title.replace('Kurseinheit', 'KE');
         },
         isNoExcludedSection: function(title){
-            if(title=='Willkommen!' || title == 'Allgemeines' || title == 'General'){
+            if(
+                title=='Willkommen!' || 
+                title == 'Allgemeines' || 
+                title == 'General' ||
+                title == 'Prüfung' ||
+                title == 'Praktische Übungen' ||
+                title == 'Prüfungsvorbereitung' ||
+                title == 'FAQs zu den Lernunterstützungen'
+                ){
                 return false;
             }
             return true;

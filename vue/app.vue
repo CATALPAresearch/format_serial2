@@ -100,7 +100,7 @@
         <hr class="mb-3 mt-3" />
         
         <div v-if="aple1801.includes(courseid)" class="mb-3 mt-3" style="width:100%;height:auto;">
-            <video controls="true" style="width:100%;height:100%">
+            <video controls="true" style="width:100%;max-height:400px;">
                 <source v-if="!controlgroup" src="https://nise81.com/1801-Intro-SS2023_Versuchsgruppe.mp4" type="video/mp4">
                 <source v-if="controlgroup" src="https://nise81.com/1801-Intro-SS2023_Kontrollgruppe.mp4" type="video/mp4"></source>
                 Leider können wir Ihnen das Begrüßungsvideo nicht zeigen, da Ihr Browser keine Videos unterstützt.
@@ -271,6 +271,7 @@ export default {
             );
             if (response.success) {
                 response.data = JSON.parse(response.data);
+                console.log("QUESTIONNAIRE: ",response.data, this.$store.getters.getCourseid, this.questionnaireid)
                 if(response.data.submitted){
                     console.log('questionnaire submitted at '+response.data.submitted);
                 }else if(this.aple1801.includes(this.courseid)){
