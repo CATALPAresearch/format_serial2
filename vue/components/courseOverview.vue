@@ -116,8 +116,8 @@ export default {
 
                 this.sections = this.groupBy(JSON.parse(response.data.completions), 'section');
                 console.log('sections', this.sections)
-                console.log('stats', this.calcStats())
                 this.stats = this.calcStats();
+                console.log('stats', this.stats);
 
                 //_this.dashboardsectionexclude = $('#dashboardsectionexclude').text().replace(' ','').split(',');
                 //_this.dashboardsectionexclude = _this.dashboardsectionexclude.isArray() ? _this.dashboardsectionexclude : [];
@@ -177,21 +177,27 @@ export default {
                         stats[section[i].section][section[i].type].complete += section[i].complete != undefined ? parseInt(section[i].complete, 10) : 0;
 
                     } else if(section[i].type == "assign"){
-                        //console.log('Dash::',stats[section[i].section][section[i].type]);
+                        
                         stats[section[i].section][section[i].type].count = stats[section[i].section][section[i].type].count + 1;//parseInt(section[i].count, 10) + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
                         stats[section[i].section][section[i].type].achieved_score += section[i].achieved_score != null ? parseInt(section[i].achieved_score, 10) : 0;
                         stats[section[i].section][section[i].type].max_score += section[i].max_score != null ? parseInt(section[i].max_score, 10) : 0;
 
                     } else if(section[i].type == "quiz"){
+                        console.log('Dash::', stats[section[i].section][section[i].type]);
                         stats[section[i].section][section[i].type].count = stats[section[i].section][section[i].type].count + 1;
                         stats[section[i].section][section[i].type].complete += section[i].submission_time != null ? 1 : 0;
-                        stats[section[i].section][section[i].type].achieved_score += section[i].achieved_score != null && section[i].achieved_score >= 0 ? parseInt(section[i].achieved_score, 10) : 0;
-                        stats[section[i].section][section[i].type].max_score += section[i].max_score != null ? parseInt(section[i].max_score, 10) : 0;
-
+                        if(section[i].achieved_score != null && section[i].max_score != null ){
+                            // FIXME:
+                            // section[i].achieved_score >= 0
+                            console.log('found', section[i]);
+                            stats[section[i].section][section[i].type].achieved_score += parseInt(section[i].achieved_score, 10) > parseInt(section[i].max_score, 10) ? parseInt(section[i].max_score, 10) : parseInt(section[i].achieved_score, 10);
+                            stats[section[i].section][section[i].type].max_score += parseInt(section[i].max_score, 10);
+                            console.log(section[i].achieved_score, section[i].max_score);
+                            console.log('result', stats[section[i].section][section[i].type].achieved_score, stats[section[i].section][section[i].type].max_score)
+                        }
                     } else{
-                        
-                        
+                        //
                     }
                 }
             }
@@ -253,7 +259,6 @@ export default {
                     sum.assign.achieved_score += stats[i].assign.achieved_score;
                     sum.assign.max_score += stats[i].assign.max_score;
                 }
-
                 out.push(el);
             }
             this.sumScores = sum;
@@ -504,14 +509,14 @@ export default {
                         {{ section.quiz.complete }} von {{ section.quiz.count }} bearbeitet
                     </span>
                 </span>
-                <span v-if="section.quiz" class="mb-1"
+                <span hidden v-if="section.quiz" class="mb-1"
                     style="display:block;position:relative;width:100%;height:15px;background-color:#eee;">
                     <span
                         :style="'position:absolute;background-color:'+getBarColor('quiz_score', section.quiz.achieved_score)+';display:block;height:100%;width:'+ getRatio(section.quiz.achieved_score, section.quiz.max_score, 100) +'%;'">
                     </span>
                     <span class="p-1 d-none d-md-block"
                         style="z-index:10;position:absolute;color:#333;font-size:0.7rem;vertical-align:middle;display:block;height:100%;">
-                        {{ Math.round(section.quiz.achieved_score) * 10 }}% korrekt
+                        {{ section.quiz.achieved_score }} , {{section.quiz.max_score }}% korrekt
                     </span>
                 </span>
                 <span v-if="section.quiz == null">-</span>
@@ -551,15 +556,21 @@ export default {
         </div>
         <div class="row col-12 mb-3" style="">
             <span class="col-3"></span>
-            <span v-if="!aple1801.includes($store.state.courseid)" class="col-2">{{ Math.round(getRatio(sumScores.hypervideo.complete,
-            sumScores.hypervideo.count)) }}% gesehen</span>
-            <span class="col-2">{{ Math.round(getRatio(sumScores.longpage.complete, sumScores.longpage.count)) }}%
-                gelesen</span>
-            <span v-if="aple1801.includes($store.state.courseid)" class="col-2">{{ getRatio(sumScores.quiz.complete,
-            sumScores.quiz.count) }}% erledigt<br></span>
-            <span class="col-2">{{ getRatio(sumScores.assign.complete, sumScores.assign.count) }}% erledigt<br></span>
-            <span v-if="!controlgroup" class="col-3">{{ getNumberOfReflectedSections() }}/{{ sectionnames.length }}
-                erledigt</span>
+            <span v-if="!aple1801.includes($store.state.courseid)" class="col-2">
+                {{ Math.round(getRatio(sumScores.hypervideo.complete, sumScores.hypervideo.count)) }}% gesehen
+            </span>
+            <span class="col-2">
+                {{ Math.round(getRatio(sumScores.longpage.complete, sumScores.longpage.count)) }}% gelesen
+            </span>
+            <span v-if="aple1801.includes($store.state.courseid)" class="col-2">
+                {{  Math.round(getRatio(sumScores.quiz.complete, sumScores.quiz.count)) }}% erledigt
+            </span>
+            <span class="col-2">
+                {{  Math.round(getRatio(sumScores.assign.complete, sumScores.assign.count)) }}% erledigt
+            </span>
+            <span v-if="!controlgroup" class="col-3">
+                {{ getNumberOfReflectedSections() }}/{{ sectionnames.length }} erledigt
+            </span>
         </div>
         <div hidden class="right col-8 small mt-3 mr-3 mb-3">
             Beachten Sie auch die anderen Lernmaterialien wie die <a href="#">Virtuellen Treffen</a>, <a

@@ -166,7 +166,7 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: [2, 5, 20, 24, 26, 8],
+            aple1801: [2, 5, 20, 24, 26, 8, 9],
             courseid: -1,
             context: {},
             logger: null,
