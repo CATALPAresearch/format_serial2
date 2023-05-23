@@ -166,13 +166,13 @@ export default {
     data: function () {
         return {
             name: 'LAD topics',
-            aple1801: [2, 5, 20, 24, 26, 8, 9],
+            aple1801: [2, 5, 8, 9, 20, 24, 26],
             courseid: -1,
             context: {},
             logger: null,
             surveyRequired: true,
             surveyLink: '',
-            questionnaireid: 1659,
+            questionnaireid: { 2: 0, 5: 0, 8: 0, 9: 0, 20: 0, 24: 0, 26: 1659 },
             controlgroup: false,
             currentGoal: 'mastery'
         }
@@ -262,16 +262,19 @@ export default {
             if(this.$store.getters.getisModerator){
                 return;
             }
+            if(this.questionnaireid[ this.$store.getters.getCourseid ] == 0){
+                return;
+            }
             const response = await Communication.webservice(
                 'get_surveys',
                 { 
                     courseid: this.$store.getters.getCourseid,
-                    moduleid: this.questionnaireid
+                    moduleid: this.questionnaireid[ this.$store.getters.getCourseid ]
                 }
             );
             if (response.success) {
                 response.data = JSON.parse(response.data);
-                console.log("QUESTIONNAIRE: ",response.data, this.$store.getters.getCourseid, this.questionnaireid)
+                console.log("QUESTIONNAIRE: ",response.data, this.$store.getters.getCourseid, this.questionnaireid[ this.$store.getters.getCourseid ])
                 if(response.data.submitted){
                     console.log('questionnaire submitted at '+response.data.submitted);
                 }else if(this.aple1801.includes(this.courseid)){
