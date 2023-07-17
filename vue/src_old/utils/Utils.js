@@ -14,7 +14,7 @@
 define([
     'jquery',
     'core/ajax',
-    M.cfg.wwwroot + '/course/format/ladtopics/amd/src/utils/ErrorHandler.js'
+    M.cfg.wwwroot + '/course/format/serial2/amd/src/utils/ErrorHandler.js'
 ], function ($, ajax, ErrorHandler) {
 
     
@@ -27,7 +27,7 @@ define([
         this.get_ws = function (ws, params, cb, external) {
             external = external === undefined ? false : external;
             ajax.call([{
-                methodname: external ? ws : 'format_ladtopics_' + ws,
+                methodname: external ? ws : 'format_serial2_' + ws,
                 args: params,
                 done: function (msg) {
                     if (msg.hasOwnProperty('exception')) {

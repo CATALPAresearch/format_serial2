@@ -1,8 +1,8 @@
 /**
  * DashboardOverview
  *
- * @module     format/ladtopics
- * @package    format_ladtopics
+ * @module     format/serial2
+ * @package    format_serial2
  * @class      DashboardOverview
  * @copyright  2022 Niels Seidel, niels.seidel@fernuni-hagen.de
  * @description Provides an overview of course activities in terms of their completion and achieved scrores. Additionally stude
@@ -15,8 +15,8 @@
 
  define([
     'jquery',
-    M.cfg.wwwroot + "/course/format/ladtopics/lib/build/vue.min.js",
-    M.cfg.wwwroot + "/course/format/ladtopics/amd/src/utils/Utils.js"
+    M.cfg.wwwroot + "/course/format/serial2/lib/build/vue.min.js",
+    M.cfg.wwwroot + "/course/format/serial2/amd/src/utils/Utils.js"
 ], function ($, Vue, Utils) {
     Utils = new Utils();
     return Vue.component('dashboard-overview',

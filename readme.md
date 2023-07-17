@@ -1,21 +1,20 @@
-Note: *yFbv6wMRnUwgFYC
+# SERIAL2
 
-LAD Topics is a *Learning Analytics Dashboard* for Moodle courses. The dashboard presents moodle activities on a timeline and enables the user to define milestones. Each milestone is associated with learning objectes, a deadline, certain course ressources and learning strategies to be applied.
+SERIAL2 is a *Learning Analytics Dashboard* for Moodle courses. The dashboard presents moodle activities on a timeline and enables the user to define milestones. Each milestone is associated with learning objectes, a deadline, certain course ressources and learning strategies to be applied.
+
+**Features**
+- visualize moodle activities on the timeline
+- enable the user to define milestones by defining a learning objective, necessary ressources, and apropriate learning strategies
 
 **Roadmap**
 - show milestones at the ressource pages (e.g. in the forum)
 - add additional dashboards
 
 
-**Features**
-- visualize moodle activities on the timeline
-- enable the user to define milestones by defining a learning objective, necessary ressources, and apropriate learning strategies
-
-
 # Installation
 1. `git clone`  the repository to /your-moodle/course/format/
 2. Open the page https://<moodle>/admin/index.php?cache=1 and follow the install instructions for the plugin.
-3. Open a course of you choice and go to the *course settings* (watch out for the littel cog-icon). Set the 'course format' to 'LAD Topics'.
+3. Open a course of you choice and go to the *course settings* (watch out for the littel cog-icon). Set the 'course format' to 'serial2'.
 
 # Usage
 
@@ -26,8 +25,8 @@ LAD Topics is a *Learning Analytics Dashboard* for Moodle courses. The dashboard
    => *827287*) einpflegen, um eine verpflichtende Umfrage vor der Kursnutzung zu realisieren. 
    Was gibt man bei start and stop date an? 1597673805 (https://www.unixtimestamp.com/)
 * Damit Moodle den Abschluss einer Umfrage registrieren kann, muss in Limesurvey eine End-URL definiert werden. Unter XXX muss eine URL gemäß des folgenden Schemas eingefügt werden:
-   * `[moodlePfad]/course/format/ladtopics/survey.php?s={SID}&a={SAVEDID}`
-   * z.B. `http://aple.fernuni-hagen.de/course/format/ladtopics/survey.php?s={SID}&a={SAVEDID}`
+   * `[moodlePfad]/course/format/serial2/survey.php?s={SID}&a={SAVEDID}`
+   * z.B. `http://aple.fernuni-hagen.de/course/format/serial2/survey.php?s={SID}&a={SAVEDID}`
 
 * Die Umfrage muss aktiv sein und nach einem Test müssen die
    Cookies zurückgesetzt werden (sonst klappt es bei LimeSurvey mit den
@@ -38,12 +37,8 @@ LAD Topics is a *Learning Analytics Dashboard* for Moodle courses. The dashboard
 
 # Development
 
-**Using grunt**
-
-* `grunt plugin-build` transpiles all js code
-* `grunt plugin-check` run js linter
-* `grunt plugin-css` bundles and minifies css files
-* `grunt plugin-all` handles both tasks mentioned above
+* `npm run build` transpiles all js code`
+* in case of an error like "ERR_OSSL_EVP_UNSUPPORTED" run `export NODE_OPTIONS=--openssl-legacy-provider`
 
 **Notes**
 
@@ -69,15 +64,15 @@ amd/scr: This is the folder where all custome javascript is located.
 
 lib: This the folder where all third party javascript is stored.
 
-/amd/ladtopics.js: This is the only script that is called by the HTML-DOM of the plugin. By using require.js all other files and dependencies are loaded on demand in this file and passed to the components (like the Timeline or the Assessment) underneath.
+/amd/serial2.js: This is the only script that is called by the HTML-DOM of the plugin. By using require.js all other files and dependencies are loaded on demand in this file and passed to the components (like the Timeline or the Assessment) underneath.
 
-amd/src/Assessment.js: This the major file where your assment dashboard has to be written. All necessray dependencies (d3, dc, vue) should be available there. The data from the server should be provided in the function call inside /amd/ladtopics.js, just below the Timeline call.
+amd/src/Assessment.js: This the major file where your assment dashboard has to be written. All necessray dependencies (d3, dc, vue) should be available there. The data from the server should be provided in the function call inside /amd/serial2.js, just below the Timeline call.
 
 A good sheet sheet: http://tech.solin.eu/doku.php?id=moodle:course_construction
-
 
 
 ## Contributors
 * Niels Seidel
 * Marc Burchart
 * Heike Karolyi
+* Slavisa Radovice

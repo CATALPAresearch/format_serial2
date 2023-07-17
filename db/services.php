@@ -10,197 +10,197 @@
 
 
 $functions = array( 
-        'format_ladtopics_analytics' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_analytics' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'analytics',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_completionprogress' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_completionprogress' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'completionProgress',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_get_surveys' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_get_surveys' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'get_surveys',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_get_goal' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_get_goal' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'get_goal',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_overview' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_overview' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'overview',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_reflectionread' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_reflectionread' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'reflectionRead',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_reflectioncreate' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_reflectioncreate' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'reflectionCreate',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
                 
-        'format_ladtopics_limesurvey' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_limesurvey' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'limesurvey',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'xxx',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_statistics' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_statistics' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'statistics',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_notification' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_notification' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'notification',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_sendmail' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_sendmail' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'sendmail',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_getalluser' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_getalluser' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'getalluser',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_name' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_name' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'name',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain the plugin name',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_logstore' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_logstore' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'logstore',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain calendar events from database',
                 'type'        => 'read',
                 'ajax'        => true 
         ),        
-        'format_ladtopics_getcalendar' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_getcalendar' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'getcalendar',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Get the calendar data from moodle native calendar',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_coursestructure' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_coursestructure' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'coursestructure',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain course structure from database',
                 'type'        => 'read',
                 'ajax'        => true 
         ),
-        'format_ladtopics_logger' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_logger' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'logger',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain logger date from database',
                 'type'        => 'write',
                 'ajax'        => true,
-                'capabilities'  => 'format/ladtopics:view', 
+                'capabilities'  => 'format/serial2:view', 
         ),
-        'format_ladtopics_updateuser' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_updateuser' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'updateuser',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain logger date from database',
                 'type'        => 'write',
                 'ajax'        => true
         ),
-        'format_ladtopics_getmilestones' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_getmilestones' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'getmilestones',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain mielstones from database',
                 'type'        => 'read',
                 'ajax'        => true
         ),        
-        'format_ladtopics_setmilestones' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_setmilestones' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'setmilestones',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Save mielstones to database',
                 'type'        => 'write',
-                //'capabilities'  => 'format/ladtopics:view',
+                //'capabilities'  => 'format/serial2:view',
                 'ajax'        => true
         ),
-        'format_ladtopics_getmilestoneplan' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_getmilestoneplan' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'getmilestoneplan',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain mielstones from database',
                 'type'        => 'read',
                 'ajax'        => true
         ),
-        'format_ladtopics_setmilestoneplan' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_setmilestoneplan' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'setmilestoneplan',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Obtain mielstones from database',
                 'type'        => 'read',
                 'ajax'        => true
         ),
-        'format_ladtopics_userpreferences' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_userpreferences' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'userpreferences',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Set and get user pref',
                 'type'        => 'write',
                 'ajax'        => true
         ),
-        'format_ladtopics_policyacceptance' => array(
-                'classname'   => 'format_ladtopics_external',
+        'format_serial2_policyacceptance' => array(
+                'classname'   => 'format_serial2_external',
                 'methodname'  => 'policyacceptance',
-                'classpath'   => 'course/format/ladtopics/api.php',
+                'classpath'   => 'course/format/serial2/api.php',
                 'description' => 'Get polics acceptance',
                 'type'        => 'write',
                 'ajax'        => true

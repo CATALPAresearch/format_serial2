@@ -1,8 +1,8 @@
 /**
- * ladtopics cleaners removes course elements that should not be available for authenticated users that did NOT agree to a ceratin policy.
+ * serial2 cleaners removes course elements that should not be available for authenticated users that did NOT agree to a ceratin policy.
  *
- * @module     format/ladtopics
- * @class      LADTopics
+ * @module     format/serial2
+ * @class      serial2
  * @copyright  2019 Niels Seidel <niels.seidel@fernuni-hagen.de>
  * @license    MIT
  * @since      3.1
@@ -49,9 +49,9 @@ define(['jquery'], function ($) {
             
             $('.activity.usenet').hide();
 
-            // A field to ask to accept all policies required for LADTopics.
-            const link = `${M.cfg.wwwroot}/course/format/ladtopics/policy.php`;
-            $('div.ladtopics').prepend(
+            // A field to ask to accept all policies required for serial2.
+            const link = `${M.cfg.wwwroot}/course/format/serial2/policy.php`;
+            $('div.serial2').prepend(
                 ` 
                 <div class="alert alert-primary my-0">
                     <div class="w-75">

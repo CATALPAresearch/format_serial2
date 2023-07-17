@@ -14,7 +14,7 @@ module.exports = (env, options) => {
             path: path.resolve(__dirname, '../amd/build'),
             publicPath: '/dist/',
             filename: 'app-lazy.min.js',
-            chunkFilename: "[id].app-lazy.min.js?v=[hash]",
+            chunkFilename: '[id].app-lazy.min.js?v=[hash]',
             libraryTarget: 'amd',
         },
         module: {
@@ -45,7 +45,7 @@ module.exports = (env, options) => {
             alias: {
                 'vue$': 'vue/dist/vue.esm.js'
             },
-            extensions: ['*', '.js', '.vue', '.json']
+            extensions: ['.*', '.js', '.vue', '.json']
         },
         devServer: {
             historyApiFallback: true,
@@ -148,10 +148,7 @@ module.exports = (env, options) => {
                 new TerserPlugin({
                     cache: true,
                     parallel: true,
-                    sourceMap: true,
-                    terserOptions: {
-                        // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-                    }
+                    sourceMap: true
                 }),
             ]
         }

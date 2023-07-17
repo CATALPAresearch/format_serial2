@@ -135,8 +135,8 @@ export default {
 
         if (this.storageAvailable('localStorage')) {
             try {
-                if (localStorage.getItem('ladtopics_course_bookmarks') !== null) {
-                    this.bookmarked = JSON.parse(localStorage.getItem('ladtopics_course_bookmarks'));
+                if (localStorage.getItem('serial2_course_bookmarks') !== null) {
+                    this.bookmarked = JSON.parse(localStorage.getItem('serial2_course_bookmarks'));
                 } else {
                     this.bookmarked = {};
                 }
@@ -163,7 +163,7 @@ export default {
             this.bookmarked[id] = !this.bookmarked[id];
             this.$forceUpdate();
             if (this.storageAvailable('localStorage')) {
-                localStorage.setItem('ladtopics_course_bookmarks', JSON.stringify(this.bookmarked));
+                localStorage.setItem('serial2_course_bookmarks', JSON.stringify(this.bookmarked));
             }
         },
         storageAvailable: function (type) {

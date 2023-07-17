@@ -1,8 +1,8 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import { store } from "./store";
-import App from "./app.vue";
-import Communication from "./scripts/communication";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import { store } from './store';
+import App from './app.vue';
+import Communication from './scripts/communication';
 
 const NotFound = { template: '<div>Ups, wir konnten leider nicht finden was Sie suchen.</div>' }
 import CourseOverview from './components/courseOverview';
@@ -12,19 +12,19 @@ import LearningStrategy from './components/learningStrategies';
 
 
 function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
+    
     // We need to overwrite the variable for lazy loading.
-    __webpack_public_path__ =
-        M.cfg.wwwroot + "/course/format/ladtopics/amd/build/";
+    __webpack_public_path__ = M.cfg.wwwroot + '/course/format/serial2/amd/build/';
 
     Communication.setPluginName(fullPluginName);
     Vue.use(VueRouter);
 
-    store.commit("setCourseid", courseid);
-    store.commit("setisModerator", isModerator);
-    store.commit("setPluginName", fullPluginName);
-    store.commit("setUserid", userid);
-    store.commit("setPolicyAccepted", policyAccepted);
-    store.dispatch("loadComponentStrings");
+    store.commit('setCourseid', courseid);
+    store.commit('setisModerator', isModerator);
+    store.commit('setPluginName', fullPluginName);
+    store.commit('setUserid', userid);
+    store.commit('setPolicyAccepted', policyAccepted);
+    store.dispatch('loadComponentStrings');
 
     // You have to use child routes if you use the same component. Otherwise the component's beforeRouteUpdate
     // will not be called.
@@ -38,13 +38,13 @@ function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
     // base URL is /mod/vuejsdemo/view.php/[course module id]/
     const currenturl = window.location.pathname;
     const base =
-        currenturl.substr(0, currenturl.indexOf(".php")) +
-        ".php/?id=" +
+        currenturl.substr(0, currenturl.indexOf('.php')) +
+        '.php/?id=' +
         courseid +
-        "/";
+        '/';
 
     const router = new VueRouter({
-        mode: "hash",
+        mode: 'hash',
         routes,
         base,
     });
@@ -62,13 +62,15 @@ function init(courseid, fullPluginName, userid, isModerator, policyAccepted) {
     // Hide resources for students, that did not agree to the informed consent
     console.log('-- policy accepted? '+policyAccepted)
     if (policyAccepted == false && courseid == 24) {
-        $(".activity.quiz.modtype_quiz").hide();
-        $(".activity.modtype_longpage").hide();
-        $(".activity.modtype_usenet").hide();
-        $(".activity.modtype_safran").hide();
+        $('.activity.quiz.modtype_quiz').hide();
+        $('.activity.modtype_longpage').hide();
+        $('.activity.modtype_usenet').hide();
+        $('.activity.modtype_safran').hide();
     }
-    var LADTOPICS = new Vue({
-        el: "#app",
+    
+    
+    var serial2 = new Vue({
+        el: '#app',
         store,
         router,
         render: (h) => h(App),

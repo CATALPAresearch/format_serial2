@@ -50,10 +50,10 @@ if (($marker >=0) && has_capability('moodle/course:setcurrentsection', $context)
 course_create_sections_if_missing($course, 0);
 
 /*
-if (format_ladtopics\blocking::tool_policy_accepted()) {
-    $PAGE->requires->js_call_amd('format_ladtopics/ladtopics', 'init', array('courseid'=>$course->id));//, array(array('courseid'=>$course->id, 'user'=>$user_data)));
+if (format_serial2\blocking::tool_policy_accepted()) {
+    $PAGE->requires->js_call_amd('format_serial2/serial2', 'init', array('courseid'=>$course->id));//, array(array('courseid'=>$course->id, 'user'=>$user_data)));
 } else{
-    $PAGE->requires->js_call_amd('format_ladtopics/ladtopicsCleaner', 'init');
+    $PAGE->requires->js_call_amd('format_serial2/serial2Cleaner', 'init');
 }
 */
 
@@ -100,19 +100,19 @@ if (format_ladtopics\blocking::tool_policy_accepted()) {
 
     
 
-$PAGE->requires->js_call_amd('format_ladtopics/app-lazy', 'init', [
+$PAGE->requires->js_call_amd('format_serial2/app-lazy', 'init', [
     'courseid' => $COURSE->id,
-    'fullPluginName' => 'format_ladtopics',
+    'fullPluginName' => 'format_serial2',
     'userid' => $USER->id,
     'isModerator' => checkModeratorStatus(),
-    'policyAccepted' => format_ladtopics\blocking::tool_policy_accepted()
+    'policyAccepted' => format_serial2\blocking::tool_policy_accepted()
 ]);
 
 echo html_writer::start_tag('div', array('class' => 'container dashboard-container')) 
 . '<div id="app"></div><div id="promptPanelApp"></div>' . html_writer::end_tag('div') 
 ;
 
-$renderer = $PAGE->get_renderer('format_ladtopics');
+$renderer = $PAGE->get_renderer('format_serial2');
 
 if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
@@ -123,4 +123,4 @@ if (!empty($displaysection)) {
 
 
 // Include course format js module
-$PAGE->requires->js('/course/format/ladtopics/format.js');
+$PAGE->requires->js('/course/format/serial2/format.js');

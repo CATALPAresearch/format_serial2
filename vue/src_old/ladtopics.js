@@ -3,21 +3,21 @@
 /**
  * Main method of the plugin. Load depending javascript and css before starting the timeline dashboard.
  *
- * @module     format/ladtopics
- * @class      LADTopics
+ * @module     format/serial2
+ * @class      serial2
  * @copyright  2022 Niels Seidel <niels.seidel@fernuni-hagen.de>
  * @license    MIT
  * @since      3.1
  */
 define([
     'jquery',
-    M.cfg.wwwroot + "/course/format/ladtopics/lib/build/vue.min.js",
-    //M.cfg.wwwroot + "/course/format/ladtopics/amd/src/DashboardOverview.js",
-    M.cfg.wwwroot + "/course/format/ladtopics/amd/src/DashboardCompletion.js",
-    M.cfg.wwwroot + "/course/format/ladtopics/amd/src/DashboardStrategy.js"
-    M.cfg.wwwroot + '/course/format/ladtopics/amd/src/utils/Utils.js',
-    M.cfg.wwwroot + '/course/format/ladtopics/amd/src/utils/Logging.js'//,
-    //M.cfg.wwwroot + '/course/format/ladtopics/amd/src/utils/ErrorHandler.js'
+    M.cfg.wwwroot + "/course/format/serial2/lib/build/vue.min.js",
+    //M.cfg.wwwroot + "/course/format/serial2/amd/src/DashboardOverview.js",
+    M.cfg.wwwroot + "/course/format/serial2/amd/src/DashboardCompletion.js",
+    M.cfg.wwwroot + "/course/format/serial2/amd/src/DashboardStrategy.js"
+    M.cfg.wwwroot + '/course/format/serial2/amd/src/utils/Utils.js',
+    M.cfg.wwwroot + '/course/format/serial2/amd/src/utils/Logging.js'//,
+    //M.cfg.wwwroot + '/course/format/serial2/amd/src/utils/ErrorHandler.js'
 ],
     function ($, Vue, /*DashboardOverview,*/ DashboardCompletion, DashboardStrategy, Utils, Log, /*ErrorHandler*/) {
         console.log(0)
@@ -41,7 +41,7 @@ define([
                     console.log(1)
                     var utils = new Utils();
                     var logger = new Log(courseid, {
-                        context: 'format_ladtopics',
+                        context: 'format_serial2',
                         outputType: 1 // 0: console, 1: logstore_standard_log
                     });
                     console.log(2)

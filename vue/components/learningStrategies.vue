@@ -162,8 +162,8 @@ export default {
         loadStorage: function(){
             if (this.storageAvailable('localStorage')) {
             try {
-                if (localStorage.getItem('ladtopics_course_bookmarks') !== null) {
-                    this.bookmarked = JSON.parse(localStorage.getItem('ladtopics_course_bookmarks'));
+                if (localStorage.getItem('serial2_course_bookmarks') !== null) {
+                    this.bookmarked = JSON.parse(localStorage.getItem('serial2_course_bookmarks'));
                 } else {
                     this.bookmarked = {};
                 }
@@ -227,7 +227,7 @@ export default {
             this.bookmarked[id] = !this.bookmarked[id];
             this.$forceUpdate();
             if (this.storageAvailable('localStorage')) {
-                localStorage.setItem('ladtopics_strategy_bookmarks', JSON.stringify(this.bookmarked));
+                localStorage.setItem('serial2_strategy_bookmarks', JSON.stringify(this.bookmarked));
             }
         },
         storageAvailable: function (type) {
@@ -363,9 +363,9 @@ export default {
                             ist die Vergrößerung des Fixierungsbereichs; lesen Sie in Wortgruppen anstelle des
                             wortwörtlichen Lesens. Beide Prozesse werden durch
                             die nachfolgenden Abbildungen dargestellt:<img class="w-50"
-                                :src="moodlePath + '/course/format/ladtopics/pix/schnelle_Lesebewegung.png'" /><img
+                                :src="moodlePath + '/course/format/serial2/pix/schnelle_Lesebewegung.png'" /><img
                                 class="w-50"
-                                :src="moodlePath + '/course/format/ladtopics/pix/normale_Lesebewegung.png'" />Eine
+                                :src="moodlePath + '/course/format/serial2/pix/normale_Lesebewegung.png'" />Eine
                             weitere unterstützende Technik bietet die
                             Beschleunigung des Lesefingers. Lesen Sie zu Beginn mit dem Finger unter den Zeilen. Das
                             schult die Blickbewegung, so dass mehrere Worte
