@@ -5,7 +5,7 @@ Quelle: https://github.com/matiassingers/awesome-readme
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="Markdownify" width="200"></a>
   <br>
-  Markdownify
+  SERIAL2
   <br>
 </h1>
 
@@ -111,6 +111,7 @@ This software uses the following open source packages:
 ## Related
 
 [SERIAL 1](https://github.com/catalparesearch/serial/serial1) - Precessor
+[SERIAL 3](https://github.com/catalparesearch/serial/serial1) - Successor
 
 ## Support
 
@@ -118,22 +119,17 @@ This software uses the following open source packages:
 
 
 ## You may also like...
-<!--
-- [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
-- [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS
--->
+
+* x
+* y
+
 ## License
 
 GPLv3
 
----
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
 
 ## Contributors
-* Niels Seidel
+* Niels Seidel [@nise81](https://twitter.com/nise81)
 * Heike Karolyi
 * Slavisa Radovice
 
