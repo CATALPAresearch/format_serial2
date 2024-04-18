@@ -173,12 +173,12 @@ export default {
     data: function () {
         return {
             name: 'SERIAL2',
-            aple1801: [2, 5, 8, 9, 20, 24, 26],
             courseid: -1,
             context: {},
             logger: null,
             surveyRequired: true,
             surveyLink: '',
+            aple1801: [2, 5, 8, 9, 20, 24, 26, 42],
             questionnaireid: { 2: 0, 5: 0, 8: 0, 9: 0, 20: 0, 24: 0, 26: 1659 },
             controlgroup: false,
             currentGoal: 'mastery'
